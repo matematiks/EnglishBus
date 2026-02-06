@@ -38,6 +38,7 @@ EnglishBus/
 *.md
 *.text
 *.txt
+!requirements.txt
 *.json
 !data.json
 tests/
