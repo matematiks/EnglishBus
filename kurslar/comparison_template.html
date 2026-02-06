@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Comparison</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f0f0; padding: 20px; }
+        .comparison-row { display: flex; gap: 20px; background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .image-container { flex: 1; text-align: center; }
+        img { max-width: 100%; max-height: 300px; border: 1px solid #ddd; }
+        .filename { margin-top: 10px; font-weight: bold; color: #333; }
+        .filesize { font-size: 0.9em; color: #666; }
+    </style>
+</head>
+<body>
+    <h1>Duplicate Image Comparison</h1>
+    <div id="gallery"></div>
+
+    <script>
+        // This script would ideally fetch the list of files, but since we can't easily list files via client-side JS without a server,
+        // we will generate the list of duplicates in the Python script and inject it here or use a separate data file.
+        // For now, I will create a Python script to GENERATE this HTML file with the actual content.
+    </script>
+</body>
+</html>

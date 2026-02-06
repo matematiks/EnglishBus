@@ -1,0 +1,93 @@
+<!-- ==================== SETTINGS SCREEN ==================== -->
+<div id="settings-screen" class="hidden min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+    <!-- Header -->
+    <div class="bg-white shadow-sm border-b-2 border-gray-100 p-4 sticky top-0 z-50">
+        <div class="max-w-2xl mx-auto flex items-center gap-4">
+            <button onclick="showScreen('dashboard-screen')"
+                class="w-10 h-10 hover:bg-gray-100 rounded-full transition-all hover:scale-110">
+                <i class="fas fa-arrow-left text-gray-600 text-xl"></i>
+            </button>
+            <h1 class="text-2xl font-black text-gray-800">Ayarlar</h1>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <!-- Content -->
+    <div class="max-w-2xl mx-auto p-4 pb-20">
+
+        <!-- Günlük Hedef -->
+        <div class="bg-white rounded-3xl shadow-lg p-6 mb-4">
+            <h2 class="text-lg font-black text-gray-800 mb-4 flex items-center gap-2">
+                <i class="fas fa-bullseye text-blue-500"></i>
+                Günlük Hedef
+            </h2>
+            <div>
+                <div class="flex items-center justify-between mb-2">
+                    <p class="font-bold text-gray-800">🎯 Günlük Kelime Hedefi</p>
+                    <span class="text-sm font-black text-blue-600"><span id="daily-goal-value">20</span>
+                        kelime</span>
+                </div>
+                <input type="range" id="onpage-goal-slider" min="5" max="50" value="20" step="5"
+                    class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                    oninput="document.getElementById('daily-goal-value').textContent = this.value"
+                    onchange="saveOnPageGoal(this.value)">
+                <p class="text-xs text-gray-400 mt-2">Günlük öğreneceğiniz yeni kelime sayısı.</p>
+            </div>
+        </div>
+
+        <!-- Veri & Tehlikeli İşlemler -->
+        <div class="bg-white rounded-3xl shadow-lg p-6 mb-4 border-2 border-red-100">
+            <h2 class="text-lg font-black text-gray-800 mb-4 flex items-center gap-2">
+                <i class="fas fa-database text-red-500"></i>
+                Veri Yönetimi
+            </h2>
+            <div class="space-y-3">
+                <button onclick="viewStatistics()"
+                    class="w-full px-4 py-3 bg-blue-50 border-2 border-blue-200 text-blue-700 font-bold rounded-xl hover:bg-blue-100 transition-all">
+                    📊 İstatistikleri Görüntüle
+                </button>
+
+
+                <div class="pt-4 mt-4 border-t border-gray-100">
+                    <button onclick="toggleDangerZone()" id="danger-zone-btn"
+                        class="w-full flex justify-between items-center px-4 py-2 text-red-600 font-bold text-sm hover:bg-red-50 rounded-lg transition-all">
+                        <span>⚠️ Tehlikeli Bölge</span>
+                        <i id="danger-zone-icon" class="fas fa-chevron-down transition-transform"></i>
+                    </button>
+
+                    <div id="danger-zone-content" class="hidden mt-3 space-y-3 bg-red-50 p-4 rounded-xl">
+                        <p class="text-xs text-red-600 mb-2">Bir kursun tüm ilerlemesini silmek için aşağıdan kursu
+                            seçin.</p>
+                        <select id="reset-course-select"
+                            class="w-full px-3 py-2 border-2 border-red-200 rounded-lg text-sm bg-white focus:outline-none focus:border-red-500 text-gray-800 font-semibold">
+                            <option value="">-- Kurs Seçin --</option>
+                        </select>
+                        <button id="reset-course-btn" onclick="showResetConfirmation()" disabled
+                            class="w-full px-4 py-3 bg-red-500 text-white font-black rounded-xl hover:bg-red-600 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i class="fas fa-trash-alt mr-2"></i> SEÇİLİ KURSU SIFIRLA
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hakkında -->
+        <div class="bg-white rounded-3xl shadow-lg p-6 mb-4">
+            <h2 class="text-lg font-black text-gray-800 mb-4 flex items-center gap-2">
+                <i class="fas fa-info-circle text-blue-500"></i>
+                Hakkında
+            </h2>
+            <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-600">Versiyon</span>
+                    <span class="font-black text-gray-800">v1.1.0</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-600">Sistem</span>
+                    <span class="font-black text-gray-800">Fibonacci SRS</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

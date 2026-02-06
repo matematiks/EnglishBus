@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnglishBus - Admin Panel</title>
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Rounded" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Lexend', 'sans-serif'] },
+                    colors: {
+                        glass: "rgba(255, 255, 255, 0.05)",
+                        glassBorder: "rgba(255, 255, 255, 0.1)",
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            background-image:
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.1) 0px, transparent 50%);
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.5rem;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 glass-panel border-r border-white/5 m-4 flex flex-col hidden md:flex">
+        <div class="p-6">
+            <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">
+                EnglishBus
+            </h1>
+            <span class="text-xs text-slate-500 uppercase tracking-wider">Yönetim Paneli</span>
+        </div>
+
+        <nav class="flex-1 px-4 space-y-2">
+            <button onclick="showSection('dashboard')"
+                class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 text-cyan-300 hover:bg-white/10 transition-all">
+                <span class="material-symbols-rounded">dashboard</span>
+                Dashboard
+            </button>
+            <button onclick="showSection('users')"
+                class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 hover:text-white transition-all">
+                <span class="material-symbols-rounded">group</span>
+                Kullanıcılar
+            </button>
+            <button onclick="showSection('teachers')"
+                class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 hover:text-white transition-all">
+                <span class="material-symbols-rounded">school</span>
+                Öğretmenler
+            </button>
+            <button onclick="showSection('messages')"
+                class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-white/5 hover:text-white transition-all">
+                <span class="material-symbols-rounded">mail</span>
+                Duyurular
+            </button>
+        </nav>
+
+        <div class="p-4 border-t border-white/5">
+            <button onclick="logout()"
+                class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-400 hover:bg-red-500/10 transition-all">
+                <span class="material-symbols-rounded">logout</span>
+                Çıkış Yap
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-4 md:p-8 overflow-y-auto">
+
+        <!-- Stats Grid -->
+        <div id="section-dashboard" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <!-- Stat Card 1 -->
+                <div class="glass-panel p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-slate-400 text-sm">Toplam Kullanıcı</p>
+                            <h3 class="text-3xl font-bold mt-2 text-white" id="stat-total-users">-</h3>
+                        </div>
+                        <span class="p-3 rounded-xl bg-cyan-500/20 text-cyan-400">
+                            <span class="material-symbols-rounded">group</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Stat Card 2 -->
+                <div class="glass-panel p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-slate-400 text-sm">Öğretmenler</p>
+                            <h3 class="text-3xl font-bold mt-2 text-white" id="stat-teachers">-</h3>
+                        </div>
+                        <span class="p-3 rounded-xl bg-purple-500/20 text-purple-400">
+                            <span class="material-symbols-rounded">school</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Stat Card 3 -->
+                <div class="glass-panel p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-slate-400 text-sm">Onay Bekleyen</p>
+                            <h3 class="text-3xl font-bold mt-2 text-white text-orange-400" id="stat-pending">-</h3>
+                        </div>
+                        <span class="p-3 rounded-xl bg-orange-500/20 text-orange-400">
+                            <span class="material-symbols-rounded">pending</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Stat Card 4 -->
+                <div class="glass-panel p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-slate-400 text-sm">Öğrenciler</p>
+                            <h3 class="text-3xl font-bold mt-2 text-white" id="stat-students">-</h3>
+                        </div>
+                        <span class="p-3 rounded-xl bg-green-500/20 text-green-400">
+                            <span class="material-symbols-rounded">menu_book</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Users Table -->
+        <div id="section-users" class="hidden glass-panel mt-6 overflow-hidden">
+            <div class="p-6 border-b border-white/5 flex justify-between items-center">
+                <h3 class="text-xl font-semibold">Kullanıcı Listesi</h3>
+                <button onclick="fetchUsers()" class="p-2 rounded-lg hover:bg-white/5">
+                    <span class="material-symbols-rounded">refresh</span>
+                </button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="text-slate-400 border-b border-white/5">
+                            <th class="p-4 font-normal">ID</th>
+                            <th class="p-4 font-normal">Kullanıcı Adı</th>
+                            <th class="p-4 font-normal">Rol</th>
+                            <th class="p-4 font-normal">Durum</th>
+                            <th class="p-4 font-normal text-right">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body" class="text-sm">
+                        <!-- JS generated rows -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Messages Section -->
+        <div id="section-messages" class="hidden space-y-6">
+            <div class="glass-panel p-8 max-w-2xl mx-auto">
+                <h3 class="text-xl font-bold mb-6">Duyuru Gönder</h3>
+                <form id="msg-form" class="space-y-4">
+                    <div>
+                        <label class="block text-sm text-slate-400 mb-1">Alıcı Grubu</label>
+                        <select id="msg-recipient"
+                            class="w-full bg-white/5 border border-white/10 rounded-xl p-3 outline-none focus:border-cyan-500 transition-colors">
+                            <option value="all_users">Tüm Kullanıcılar</option>
+                            <option value="all_students">Tüm Öğrenciler</option>
+                            <option value="all_teachers">Tüm Öğretmenler</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-slate-400 mb-1">Konu</label>
+                        <input type="text" id="msg-subject"
+                            class="w-full bg-white/5 border border-white/10 rounded-xl p-3 outline-none focus:border-cyan-500 transition-colors"
+                            placeholder="Duyuru Başlığı" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-slate-400 mb-1">Mesaj</label>
+                        <textarea id="msg-text" rows="4"
+                            class="w-full bg-white/5 border border-white/10 rounded-xl p-3 outline-none focus:border-cyan-500 transition-colors"
+                            placeholder="Mesajınız..." required></textarea>
+                    </div>
+                    <button type="submit"
+                        class="w-full bg-gradient-to-r from-cyan-500 to-blue-500 p-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
+                        Gönder
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- JAVASCRIPT LOGIC (API Connected) -->
+    <script>
+        const API_URL = '/api'; // Using the main API prefix
+        const TOKEN_KEY = 'englishbus_token';
+        let currentUser = null;
+
+        // --- AUTH ---
+        function getToken() {
+            return localStorage.getItem(TOKEN_KEY);
+        }
+
+        async function fetchAPI(endpoint, method = 'GET', body = null) {
+            const token = getToken();
+            if (!token) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const options = {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+            if (body) options.body = JSON.stringify(body);
+
+            try {
+                const res = await fetch(endpoint, options);
+                if (res.status === 401) {
+                    logout();
+                    return;
+                }
+                return await res.json();
+            } catch (err) {
+                console.error("API Error:", err);
+                alert("Sunucu hatası!");
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem(TOKEN_KEY);
+            localStorage.removeItem('englishbus_user');
+            window.location.href = 'index.html';
+        }
+
+        // --- INIT ---
+        window.onload = async () => {
+            // Validate Admin
+            const userStr = localStorage.getItem('englishbus_user');
+            if (!userStr) {
+                window.location.href = 'index.html';
+                return;
+            }
+            currentUser = JSON.parse(userStr);
+            // In a real app we would check roles here via API as well, but for now rely on API 403s
+
+            loadDashboard();
+        };
+
+        function showSection(id) {
+            ['dashboard', 'users', 'teachers', 'messages'].forEach(s => {
+                const el = document.getElementById(`section-${s}`);
+                if (el) el.classList.add('hidden');
+            });
+            const target = document.getElementById(`section-${id}`);
+            if (target) {
+                target.classList.remove('hidden');
+                if (id === 'dashboard') loadDashboard();
+                if (id === 'users') fetchUsers();
+                if (id === 'teachers') fetchUsers(); // Re-use list but filter later if needed
+            }
+        }
+
+        // --- DASHBOARD ---
+        async function loadDashboard() {
+            const stats = await fetchAPI('/admin/api/stats'); // We need to ensure prefix is correct. 
+            // Checking admin_endpoints.py -> router prefix is /api in main.py includes, Wait main.py:
+            // app.include_router(new_admin_router, prefix="/api", tags=["api"])
+            // app.include_router(new_admin_router, prefix="/admin/api", tags=["admin-api"])
+            // content of admin_endpoints.py has @router.get("/stats")
+            // So /admin/api/stats should work.
+
+            if (stats) {
+                document.getElementById('stat-total-users').innerText = stats.total_users;
+                document.getElementById('stat-teachers').innerText = stats.teachers;
+                document.getElementById('stat-students').innerText = stats.students;
+                document.getElementById('stat-pending').innerText = stats.pending_teachers;
+            }
+        }
+
+        // --- USERS ---
+        async function fetchUsers() {
+            const data = await fetchAPI('/admin/api/users');
+            if (data && data.users) {
+                renderUsers(data.users);
+            }
+        }
+
+        function renderUsers(users) {
+            const tbody = document.getElementById('users-table-body');
+            tbody.innerHTML = '';
+
+            users.forEach(u => {
+                const row = document.createElement('tr');
+                row.className = 'border-b border-white/5 hover:bg-white/5 transition-colors';
+
+                let roleColor = 'text-slate-400';
+                if (u.account_type === 'admin') roleColor = 'text-red-400 font-bold';
+                if (u.account_type === 'teacher') roleColor = 'text-purple-400 font-bold';
+
+                let statusBadge = `<span class="px-2 py-1 rounded text-xs bg-green-500/20 text-green-400">Aktif</span>`;
+                if (u.approval_status === 'pending_approval') statusBadge = `<span class="px-2 py-1 rounded text-xs bg-orange-500/20 text-orange-400">Onay Bekliyor</span>`;
+
+                row.innerHTML = `
+                    <td class="p-4 text-slate-400 font-mono text-xs">#${u.id}</td>
+                    <td class="p-4 font-medium">${u.username}</td>
+                    <td class="p-4 ${roleColor}">${u.account_type}</td>
+                    <td class="p-4">${statusBadge}</td>
+                    <td class="p-4 text-right">
+                        <div class="relative inline-block text-left group">
+                            <button class="p-1 rounded hover:bg-white/10">
+                                <span class="material-symbols-rounded">more_vert</span>
+                            </button>
+                            <!-- Dropdown -->
+                            <div class="absolute right-0 mt-2 w-48 bg-gray-900 border border-white/10 rounded-xl shadow-xl hidden group-hover:block z-50">
+                                <div class="py-1">
+                                    ${u.approval_status === 'pending_approval' ?
+                        `<button onclick="approveTeacher(${u.id})" class="block w-full text-left px-4 py-2 text-sm text-green-400 hover:bg-white/5">Öğretmenliği Onayla</button>` : ''
+                    }
+                                    <button onclick="resetPass(${u.id})" class="block w-full text-left px-4 py-2 text-sm text-yellow-500 hover:bg-white/5">Şifre Sıfırla (123456)</button>
+                                    <button onclick="deleteUser(${u.id})" class="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-white/5">Sil</button>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // --- ACTIONS ---
+        async function approveTeacher(id) {
+            if (!confirm('Bu öğretmeni onaylamak istiyor musunuz?')) return;
+
+            // Using endpoint: /users/{id}/role to set teacher (which triggers unique ID generation logic in backend)
+            // Or simpler if available. admin_endpoints.py has logic to auto-approve in update_user_role
+            const res = await fetchAPI(`/admin/api/users/${id}/role`, 'PUT', {
+                admin_id: currentUser.id,
+                account_type: 'teacher' // Re-asserting 'teacher' triggers approval logic
+            });
+
+            if (res && res.status === 'success') {
+                alert('Öğretmen onaylandı ve ID atandı.');
+                fetchUsers();
+                loadDashboard();
+            }
+        }
+
+        async function resetPass(id) {
+            if (!confirm('Şifre 123456 yapılacak. Emin misiniz?')) return;
+            const res = await fetchAPI(`/admin/api/users/${id}/reset-password`, 'POST');
+            if (res) alert(res.message);
+        }
+
+        async function deleteUser(id) {
+            if (!confirm('Bu kullanıcı DÖNÜŞSÜZ olarak silinecek!')) return;
+            const res = await fetchAPI(`/admin/api/users/${id}`, 'DELETE');
+            if (res) {
+                fetchUsers();
+                loadDashboard();
+            }
+        }
+
+        // --- MESSAGING ---
+        document.getElementById('msg-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const recipient = document.getElementById('msg-recipient').value;
+            const subject = document.getElementById('msg-subject').value;
+            const msg = document.getElementById('msg-text').value;
+
+            const res = await fetchAPI('/admin/messages/admin/messages/send', 'POST', {
+                recipient_type: recipient,
+                subject: subject,
+                message: msg,
+                admin_user_id: currentUser.id
+            });
+
+            if (res && res.status === 'success') {
+                alert(`Başarılı: ${res.message}`);
+                e.target.reset();
+            }
+        };
+
+    </script>
+</body>
+
+</html>

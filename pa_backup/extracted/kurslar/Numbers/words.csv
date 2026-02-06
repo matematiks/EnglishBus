@@ -1,0 +1,47 @@
+order,english,turkish,image_file,audio_en_file,audio_tr_file
+1,One,Bir,001.jpg,ing_001.mp3,tr_001.mp3
+2,Two,Iki,002.jpg,ing_002.mp3,tr_002.mp3
+3,Three,Üç,003.jpg,ing_003.mp3,tr_003.mp3
+4,Four,Dört,004.jpg,ing_004.mp3,tr_004.mp3
+5,Five,Beş,005.jpg,ing_005.mp3,tr_005.mp3
+6,Six,Altı,006.jpg,ing_006.mp3,tr_006.mp3
+7,Seven,Yedi,007.jpg,ing_007.mp3,tr_007.mp3
+8,Eight,Sekiz,008.jpg,ing_008.mp3,tr_008.mp3
+9,Nine,Dokuz,009.jpg,ing_009.mp3,tr_009.mp3
+10,Ten,On,010.jpg,ing_010.mp3,tr_010.mp3
+11,Eleven,Onbir,011.jpg,ing_011.mp3,tr_011.mp3
+12,Twelve,Oniki,012.jpg,ing_012.mp3,tr_012.mp3
+13,Thirteen,Onüç,013.jpg,ing_013.mp3,tr_013.mp3
+14,Fourteen,Ondört,014.jpg,ing_014.mp3,tr_014.mp3
+15,Fifteen,Onbeş,015.jpg,ing_015.mp3,tr_015.mp3
+16,Sixteen,Onaltı,016.jpg,ing_016.mp3,tr_016.mp3
+17,Seventeen,Onyedi,017.jpg,ing_017.mp3,tr_017.mp3
+18,Eighteen,Onsekiz,018.jpg,ing_018.mp3,tr_018.mp3
+19,Nineteen,Ondokuz,019.jpg,ing_019.mp3,tr_019.mp3
+20,Twenty,Yirmi,020.jpg,ing_020.mp3,tr_020.mp3
+21,Twenty-One,Yirmibir,021.jpg,ing_021.mp3,tr_021.mp3
+22,Twenty-Two,Yirmiiki,022.jpg,ing_022.mp3,tr_022.mp3
+23,Twenty-Three,Yirmiüç,023.jpg,ing_023.mp3,tr_023.mp3
+24,Twenty-Four,Yirmidört,024.jpg,ing_024.mp3,tr_024.mp3
+25,Twenty-Five,Yirmibeş,025.jpg,ing_025.mp3,tr_025.mp3
+26,Twenty-Six,Yirmialtı,026.jpg,ing_026.mp3,tr_026.mp3
+27,Twenty-Seven,Yirmiyedi,027.jpg,ing_027.mp3,tr_027.mp3
+28,Twenty-Eight,Yirmisekiz,028.jpg,ing_028.mp3,tr_028.mp3
+29,Twenty-Nine,Yirmidokuz,029.jpg,ing_029.mp3,tr_029.mp3
+30,Thirty,Otuz,030.jpg,ing_030.mp3,tr_030.mp3
+40,Forty,Kırk,040.jpg,ing_040.mp3,tr_040.mp3
+50,Fifty,Elli,050.jpg,ing_050.mp3,tr_050.mp3
+60,Sixty,Altmış,060.jpg,ing_060.mp3,tr_060.mp3
+70,Seventy,Yetmiş,070.jpg,ing_070.mp3,tr_070.mp3
+80,Eighty,Seksen,080.jpg,ing_080.mp3,tr_080.mp3
+90,Ninety,Doksan,090.jpg,ing_090.mp3,tr_090.mp3
+100,One Hundred,Yüz,100.jpg,ing_100.mp3,tr_100.mp3
+200,Two Hundred,Ikiyüz,200.jpg,ing_200.mp3,tr_200.mp3
+300,Three Hundred,Üçyüz,300.jpg,ing_300.mp3,tr_300.mp3
+400,Four Hundred,Dörtyüz,400.jpg,ing_400.mp3,tr_400.mp3
+500,Five Hundred,Beşyüz,500.jpg,ing_500.mp3,tr_500.mp3
+600,Six Hundred,Altıyüz,600.jpg,ing_600.mp3,tr_600.mp3
+700,Seven Hundred,Yediyüz,700.jpg,ing_700.mp3,tr_700.mp3
+800,Eight Hundred,Sekizyüz,800.jpg,ing_800.mp3,tr_800.mp3
+900,Nine Hundred,Dokuzyüz,900.jpg,ing_900.mp3,tr_900.mp3
+1000,One Thousand,Bin,1000.jpg,ing_1000.mp3,tr_1000.mp3

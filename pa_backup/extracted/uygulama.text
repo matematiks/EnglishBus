@@ -1,0 +1,692 @@
+buraya proje planını yazacağım. ama bunu düze yazı ve kod arası bir mantıkla yapmaya çalışacağım. umarım başarılı olabiliriz.
+----------------------
+----------------------
+FIBONACCI DİZİSİ (GLOBAL TANIM - TÜM BELGE İÇİN GEÇERLİDİR)
+
+    Fibonacci Dizisi (1-indexed): 1, 1, 2, 3, 5, 8, 13, 21, 34, 55...
+    
+    Index Tablosu:
+    Fibonacci[1] = 1
+    Fibonacci[2] = 1
+    Fibonacci[3] = 2
+    Fibonacci[4] = 3
+    Fibonacci[5] = 5
+    Fibonacci[6] = 8
+    Fibonacci[7] = 13
+    ...
+    
+    Bu tanım belgenin tamamında kullanılır.
+    Tekrar aralıkları bu diziye göre hesaplanır.
+    
+    ÖNEMLİ NOT:
+    Fibonacci değeri = Sonraki gösterim ile arasındaki ADIM sayısıdır.
+    Formul: Next_Step = Current_Step + Fibonacci(Level)
+    
+    ÖZEL DURUM - repetition_count = 0:
+    Yeni kelimeler (hiç görülmemiş) için Fibonacci hesabı YAPILMAZ.
+    İlk tekrar, kelime ilk kez görüldükten sonra repetition_count = 1 olduğunda başlar.
+    Bu durumda: Next_Step = Current_Step + Fibonacci[1] = Current_Step + 1
+    
+    Görsel Doğrulama:
+    Adım 1 öğrenildi (rep=1) → Next = 1 + 1 = 2 ✓
+    Adım 2 tekrar (rep=2) → Next = 2 + 1 = 3 ✓
+    Adım 3 tekrar (rep=3) → Next = 3 + 2 = 5 ✓
+----------------------
+----------------------
+----------------------
+Sistemin çalışma mantığını tarif ediyorum: 
+Sistem, zamana dayalı (tarih/saat) değil, "Adım Tabanlı" (Step-Based) bir Aralıklı Tekrar (Spaced Repetition) algoritması kullanacaktır.
+
+    1. Temel Kavramlar:
+        Adım (Step/Bucket): Exceldeki satır numarası gibidir. Kullanıcı bir "Adım" içindeyken, o adıma denk gelen tüm kartları (yeni veya tekrar) bitirmeden bir sonraki adıma (satıra) geçemez.
+        Yığın (Stacking): Bir adımda birden fazla kart birikebilir. Kullanıcı o adımdaki kartları sırayla görür.
+        Kart (Card): Öğrenilecek kelime.
+
+    2. Algoritma Kuralları: Sistem iki ana kurala göre çalışır: Giriş Kuralı ve Tekrar Kuralı.
+
+        A. Yeni Kelime Giriş Kuralı (The 1-4-7-10 Rule): Sisteme yeni kelimeler (New Words) sadece belirli adımlarda girer.
+            Formül: (Mevcut Adım - 1) % 3 == 0 ise yeni kelime çekilir.
+            Mantık: 1, 4, 7, 10, 13, 16... adımlarında desteye veritabanından sıradaki "Yeni Kelime" eklenir.
+            Ara adımlarda (2, 3, 5, 6, 8, 9...) yeni kelime alınmaz, sadece varsa tekrarlar yapılır.
+
+        B. Tekrar Kuralı (Fibonacci Gaps): Kullanıcı bir kartı tamamladığında, o kelime bir sonraki gösterim için ileri bir adıma fırlatılır. Fırlatma mesafesi (Gap) yukarıda tanımlanan Fibonacci dizisine göre belirlenir.
+            Hesaplama: Hedef Adım = Mevcut Adım + Fibonacci(Seviye)
+            Örnek: Kullanıcı 11. adımda bir kelimeyi 3. seviyede tamamladı (Fibonacci[3] = 2). Hedef = 11 + 2 = 13. Bu kelime 13. adıma rezerve edilir.
+            
+            NOT: Tekrar hesaplaması yalnızca bu bölümde tanımlanan formüle göre yapılır.
+    3. Oturum Akışı (Session Flow - Pseudo Code): Yazılımcı veya AI, backend tarafında şu mantığı kurmalıdır:
+ 
+        # Python ile KODLAMA MANTIĞI İÇİN REFERANS (Pseudo-Code)
+        # active_course_id her zaman Users tablosundan alınır ve parametre olarak geçilir.
+        # Fonksiyon adı: get_step_content (tüm belgede aynı)
+
+            def get_step_content(user_id, active_course_id, skip_count=0):
+                # skip_count: Boş adım atlama sayısı (recursive çağrılarda artırılır)
+                
+                current_step = db.get_user_step(user_id, active_course_id) # Kurs bazlı step
+                bucket_content = []
+
+                # KURAL 1: Yeni Kelime Kontrolü
+                if (current_step - 1) % 3 == 0:
+                    new_word = Database.get_next_new_word(user_id, active_course_id)
+                    bucket_content.append(new_word)
+
+                # KURAL 2: Tekrar Kelimelerini Topla
+                # Veritabanında "next_review_step" değeri "current_step" olanları getir.
+                # ÖNEMLİ: Sadece aktif kursun kelimelerini getir (kurs karışmasını önlemek için)
+                reviews = Database.query(
+                    """SELECT * FROM Progress 
+                       WHERE next_review_step = ? 
+                       AND user_id = ?
+                       AND word_id IN (SELECT id FROM Words WHERE course_id = active_course_id)""",
+                    current_step, user_id
+                )
+                bucket_content.extend(reviews)
+
+                # KURAL 3: Sepet Kontrolü
+                if bucket_content is not empty:
+                    return bucket_content # Kullanıcıya bu kartları göster
+                    # Çalışma Mantığı:
+                    # skip_count fonksiyon parametresi olarak taşınır
+                    # Her recursive çağrıda artırılır
+                    # Alternatif: while loop ile iterative yapılabilir
+                    
+                    if skip_count > 200:
+                        return "Bu kursta şu an bekleyen kart yok" # Recursion limit
+                    
+                    db.increment_user_step(user_id, active_course_id)
+                    return get_step_content(user_id, active_course_id, skip_count + 1)
+
+----------------------
+----------------------
+şimdi sistemin veritabanı yapısını tarif ediyorum:
+    veritabanında şunlar
+        Kurs bilgileri (Courses)
+            Kurs adı (A1, A2, 5. sınıf, 6. sınıf vs)
+            Kurs id (otomatik artan ID, veya UUID)
+            Kurs kelimeleri (her kursa ait toplam kelime sayısı )
+            owner_user_id (NULL = sistem kursu, user_id = kullanıcı kursu)
+            order_number (sıralama için)
+        Ünite bilgileri
+            Ünite adı (A1.1 A2.4 grade5-tema adı  vs)
+            Ünite id (otomatik artan ID, veya UUID)
+            Ünite kelimeleri (kelime listesi olacak)
+            Ünite kelime sayısı (her ünitede 50 kelime olacak)
+        Kelime bilgileri
+            Kelime id (otomatik artan ID, veya UUID)
+            Kelime ingilizce kelimesi
+            Kelime Türkçe anlamlısı
+            Kelime sesi
+            Kelime resmi (URL - yapay zeka ile önceden üretilip yüklenecek veya stok API kullanılacak)
+        Kullanıcı bilgileri (Users)
+            Kullanıcı id (otomatik artan ID, veya UUID)
+            Kullanıcı adı
+            Kullanıcı soyadı
+            Kullanıcı e-posta
+            Kullanıcı şifre
+            Kullanıcı aktif kurs (active_course_id) - şu an çalıştığı kurs
+                
+                NOT: Users.current_step KALDIRILDI!
+                Her kurs için ayrı current_step UserCourseProgress'te tutulur.
+                
+         Kullanıcı Kurs İlerlemesi (UserCourseProgress) - ÇOK KURSLU SİSTEM
+                    user_id (hangi kullanıcı)
+                    course_id (hangi kurs)
+                    current_step (o kursta nerede)
+                    last_activity (en son ne zaman çalıştı - opsiyonel)
+                    
+                    PRIMARY KEY: (user_id, course_id)
+                    
+                    Çalışma Mantığı:
+                        - Kullanıcı A1'e çalışırsa → A1'in current_step'i güncellenir
+                        - A2'ye geçerse → A2'nin current_step'i okunur
+                        - Hiç çalışmamışsa → current_step = 1 (default)
+                    
+                    Bu sayede:
+                        ✅ Her kurs ayrı takip edilir
+                        ✅ Kurs değişiminde veri kaybı YOK
+                        ✅ %100 doğruluk garantisi
+                    
+         Kullanıcı ilerleyiş bilgileri (Progress - Sistemin Kalbi)
+                    Progress id (otomatik artan ID)
+                    user_id (hangi kullanıcı)
+                    word_id (hangi kelime)
+                    repetition_count (kaç kez tekrar edildi - Fibonacci seviyesi)
+                    next_review_step (bir sonraki tekrarın yapılacağı adım numarası)
+                    
+                    ÖNEMLİ: "status" alanı YOKTUR. Tüm kelimeler sürekli tekrar edilir.
+                    repetition_count = 0 → Yeni kelime (hiç görülmemiş)
+                    repetition_count > 0 → Tekrar ediliyor (seviye sayısı kadar)
+                    
+                    KRİTİK GÜVENLİK NOTU:
+                    Progress tablosunda course_id alanı YOK (denormalize edilmedi).
+                    Kurs izolasyonu word_id → Words.course_id ilişkisiyle sağlanır.
+                    
+                    Mimari Not:
+                    Bu MVP'de bilinçli olarak course_id denormalize edilmemiştir.
+                    İleri aşamalarda performans veya güvenlik gerekirse,
+                    Progress'e redundant course_id alanı eklenebilir.
+                    
+                    ZORUNLU: Her Progress query'sinde şu filtre MUTLAKA olmalı:
+                    AND word_id IN (SELECT id FROM Words WHERE course_id = active_course_id)
+                    
+                    Bu filtre unutulursa kurslar karışır!
+       bulunacak
+----------------------
+----------------------
+Veri tabanı işleyişi şu şekilde olmalı.
+    
+
+    0. TEMEL FELSEFE
+
+        Bu sistem:
+        ZAMAN (date, time, clock) KULLANMAZ
+        Öğrenmeyi "ADIM (STEP)" üzerinden takip eder
+        Tekrarları Fibonacci dizisine göre planlar
+        Kullanıcı hızına kendiliğinden uyum sağlar
+        
+        Amaç:
+        Öğrenme baskısını azaltmak
+        Motivasyonu korumak
+        Deterministik, test edilebilir ve sade bir sistem kurmak
+
+    1. MANTIKSAL HİYERARŞİ (KULLANICIYA GÖRÜNEN YAPI)
+
+        Sistem, içerikleri şu mantıksal hiyerarşiyle ele alır:
+        
+            Course (Kurs)
+            └── Unit (Ünite)
+                └── Word (Kelime)
+        
+        Kullanıcı arayüzünde ve iş mantığında kelimeler
+        "Mantıksal Adresleme" ile temsil edilir:
+        
+            course.unit.word >1.1.14
+        
+        ÖNEMLİ:
+        Bu adresler VERİTABANINDA string olarak tutulmaz
+        Bunlar; order_number alanlarından TÜRETİLİR
+
+    2. VERİTABANI GERÇEKLİĞİ vs MANTIKSAL ADRES
+
+        Veritabanında her tablo klasik ID’ler kullanır:
+    
+            course_id, unit_id, word_id >1, 2, 3, ...
+    
+        Mantıksal adresleme ise şu alanlardan hesaplanır:
+    
+            course.order_number
+            unit.order_number
+            word.order_number
+    
+        UI veya raporlama katmanında:
+    
+            logical_address = f"{course.order}.{unit.order}.{word.order}"
+    
+        Bu ayrım:
+            Performansı korur
+            Reorder ve migration sorunlarını önler
+            Sistemi ölçeklenebilir yapar
+
+    3. KURSLAR (COURSES)
+        Sistem iki tür kurs barındırır:
+        1. Sistem Kursları (Örn: A1, A2, B1...)
+        2. Kullanıcıya Ait Özel Kurslar
+            Sistem Kursları:
+                owner_user_id = NULL
+                order_number = 1, 2, 3, ...
+            Kullanıcı Kursları (Özel):
+                owner_user_id = kullanıcıya ait
+                order_number = 0(Mantıksal olarak "Kurs 0")
+        Bu sayede:
+            Her kullanıcının kendi kelime alanı izole edilir
+            Sistem kurslarıyla çakışma olmaz
+
+    4. ÜNİTELER (UNITS)
+        Her kurs birden fazla ünite içerir.
+        Üniteler sırayla numaralandırılır:
+        
+            1.1, 1.2, 1.3 ...
+    
+        Kullanıcı kursları için özel kural:
+    
+        ÜNİTE BOYUTU PARAMETRESİ:
+            WORDS_PER_UNIT = 50 (varsayılan)
+            
+            Bu parametre değiştirilebilir (örn: 40, 60)
+            Sistem otomatik olarak yeniden ünitelere böler
+        
+        Otomatik Üniteleme:
+            Her WORDS_PER_UNIT kelimede bir otomatik yeni ünite açılır
+        
+        Örnek (WORDS_PER_UNIT = 50):
+            1–50 kelime → Ünite 0.1
+            51–100 kelime → Ünite 0.2
+            101–150 kelime → Ünite 0.3
+            ...
+    
+        Maksimum:
+            20 ünite x 50 kelime = 1000 kelime
+            
+        NOT: Admin üniteleri ELLE OLUŞTURMAZ!
+        Sadece sıralı kelime listesi verir, sistem otomatik böler.
+
+    5. ÜNİTE KİLİTLEME SİSTEMİ (PROGRESSION GATING)
+    
+        Bu sistem, kullanıcının rastgele ünitelere atlamasını önler ve
+        linear (sıralı) öğrenmeyi teşvik eder.
+        
+        ÖNEMLİ: Bu bir ERİŞİM KURALI'dır, çekirdek algoritmaya DOKUNMAZ.
+        
+        TEMEL KURAL:
+            Bir kursta kullanıcı aynı anda EN FAZLA 2 üniteye erişebilir:
+            - Aktif ünite (çalışılan)
+            - Bir sonraki ünite (koşullu)
+        
+        ÜNİTE DURUMLARI (3 Durum):
+        
+            LOCKED (Kilitli):
+                - Henüz erişilemez
+                - UI'da kilit ikonu ile gösterilir
+                - Tıklanamaz
+            
+            PREVIEW (Önizleme):
+                - Görebilir ama çalışamaz
+                - "Yakında" etiketi vardır
+                - Motivasyon sağlar
+            
+            OPEN (Açık):
+                - Tam erişilebilir
+                - Çalışılabilir
+        
+        UNLOCK KURALLARI:
+        
+            İlk Ünite (örn: A1.1):
+                → Her zaman OPEN
+            
+            İkinci Ünite (örn: A1.2) → PREVIEW olması için:
+                Aktif ünitedeki kelimelerin %50'si
+                repetition_count >= 1 olmalı
+                
+                Hesaplama:
+                seen_count = COUNT(rep_count > 0) FROM aktif ünite
+                if seen_count >= WORDS_PER_UNIT * 0.5:
+                    → PREVIEW açılır
+            
+            Bir Ünitenin TAM AÇILMASI → OPEN olması için:
+                Önceki ünitedeki TÜM kelimeler
+                repetition_count >= 7 olmalı
+                
+                Hesaplama:
+                mastered_count = COUNT(rep_count >= 7) FROM önceki ünite
+                if mastered_count == WORDS_PER_UNIT:
+                    → OPEN olur
+        
+        ÖRNEK SENARYO:
+        
+            Kullanıcı A1 kursuna başladı:
+            
+            Başlangıç:
+                A1.1 → OPEN (varsayılan)
+                A1.2 → LOCKED
+                A1.3 → LOCKED
+            
+            A1.1'de 25 kelime görüldü (rep_count >= 1):
+                A1.1 → OPEN
+                A1.2 → PREVIEW (görebilir ama çalışamaz)
+                A1.3 → LOCKED
+            
+            A1.1'in 50 kelimesi de rep_count >= 7 oldu:
+                A1.1 → OPEN (hala çalışılabilir)
+                A1.2 → OPEN (artık çalışılabilir!)
+                A1.3 → LOCKED (A1.2 için aynı kural bekliyor)
+        
+        BACKEND FONKSİYON (Pseudo-Code):
+        
+            def get_unit_states(user_id, course_id):
+                """
+                Kullanıcı için tüm ünitelerin durumunu hesaplar
+                """
+                active_unit = get_active_unit(user_id, course_id)
+                units = get_units(course_id)
+                states = {}
+                
+                for unit in units:
+                    if unit.order_number == 1:
+                        # İlk ünite her zaman açık
+                        states[unit.id] = "OPEN"
+                    
+                    elif unit.order_number == active_unit.order_number:
+                        # Aktif ünite açık
+                        states[unit.id] = "OPEN"
+                    
+                    elif unit.order_number == active_unit.order_number + 1:
+                        # Bir sonraki ünite koşullu
+                        seen_count = count_seen_words(user_id, active_unit.id)
+                        
+                        if seen_count >= WORDS_PER_UNIT * 0.5:
+                            # Önceki ünite tamamlanmış mı?
+                            prev_unit = get_unit(course_id, unit.order_number - 1)
+                            mastered = count_mastered_words(user_id, prev_unit.id, min_rep=7)
+                            
+                            if mastered == WORDS_PER_UNIT:
+                                states[unit.id] = "OPEN"
+                            else:
+                                states[unit.id] = "PREVIEW"
+                        else:
+                            states[unit.id] = "LOCKED"
+                    
+                    else:
+                        # Diğer tüm üniteler kilitli
+                        states[unit.id] = "LOCKED"
+                
+                return states
+        
+        ÖNEMLİ NOTLAR:
+        
+            1. Bu sistem step algoritmasına DOKUNMAZ
+               - Kelimeler yine step bazlı gelir
+               - Fibonacci aynı çalışır
+               - Sadece ERİŞİM kontrolü yapar
+            
+            2. PREVIEW durumunda kullanıcı:
+               - Üniteyi görebilir
+               - Kelimeleri listeleyebilir
+               - AMA çalışamaz (buton disable)
+            
+            3. Aktif ünite hesaplama:
+               - Kullanıcının en son gördüğü kelimenin ünitesi
+               - UserCourseProgress.current_step'ten türetilebilir
+
+    6. KELİMELER (WORDS)
+        Her kelime:
+            Sadece bir üniteye aittir
+            Ünite içinde sıralıdır
+            Kelimenin mantıksal adresi:
+            course.order
+            unit.order
+            word.order
+        
+        Örnek:
+        2.1.1> 2. kurs, 1. ünite, 1. kelime
+
+    6. KULLANICILAR (USERS)
+        Her kullanıcı:
+            Benzersiz bir kullanıcı ID’ye sahiptir
+            Sistem içinde ilerleyişi tamamen bağımsızdır
+    
+        Mantıksal anlatımda:
+            K1, K2, K3 ...
+    
+        Teknikte:
+            user_id = UUID veya auto increment ID
+
+    7. KULLANICI İLERLEYİŞ FELSEFESİ (KRİTİK)
+        Kullanıcı ilerleyişi:
+            "Son kaldığı kelime" ile değil
+            "Mevcut Adım (current_step)" ile takip edilir
+    
+        Çünkü:
+            Sistem geri dönüşlü tekrarlar içerir
+            Fibonacci tekrarları vardır
+    
+        Bu nedenle:
+            Zaman bazlı takip YAPILMAZ
+            Date / time / cron KULLANILMAZ
+
+    8. ADIM (STEP) MANTIĞI
+
+        Step = Öğrenme zamanının yerini tutan soyut sayaç
+        
+        Kullanıcı bir kursa başladığında:
+            current_step = 1
+        
+        Her oturumda:
+            Kullanıcıya bir "kart seti" gösterilir
+        Tüm kartlar tamamlanınca:
+        
+        current_step += 1
+
+    9. OTURUMDA GÖSTERİLECEK KARTLAR
+
+        Bir adımda kullanıcıya gösterilen kartlar:
+            1. YENİ KELİME (opsiyonel)
+            2. TEKRAR KELİMELERİ (0 veya daha fazla)
+        
+        YENİ KELİME KURALI:
+            Yeni kelime sadece şu adımlarda eklenir:
+                1, 4, 7, 10, 13, ...
+        
+        Matematiksel ifade:
+            if (current_step - 1) % 3 == 0:
+                yeni kelime ekle
+
+    10. TEKRAR (REVIEW) MANTIĞI
+        Her kelime için sistem şunları tutar:
+            repetition_count (kaç kez tekrar edildi)
+            next_review_step (bir sonraki tekrarın yapılacağı adım)
+        Tekrar aralıkları yukarıda tanımlanan Fibonacci dizisine göre hesaplanır.
+    
+        Örnek:
+            kelime level = 3
+            fibonacci(3) = 2
+            next_review_step = current_step + 2
+        
+        NOT: Fibonacci sonsuz devam eder, kelime HIÇ sistemden çıkmaz.
+
+    11. BOŞ ADIMLARIN OTOMATİK ATLANMASI
+        Eğer bir adımda:
+            Yeni kelime yok
+            Tekrar kelimesi yok
+        Sistem kullanıcıyı BEKLETMEZ.
+    
+        Otomatik olarak:
+            current_step += 1
+            tekrar kontrol eder
+    
+    Bu işlem:
+        Kullanıcıyı "boş oturum" yaşamaktan korur
+        Akışı kesintisiz tutar
+
+    12. İLERLEYİŞ TABLOSU (PROGRESS)
+
+        Progress tablosu sistemin KALBİDİR.
+        
+        Bu tabloda:
+        ZAMAN YOK
+        TARİH YOK
+        
+        SADECE:
+        
+        user_id
+        word_id
+        repetition_count
+        next_review_step
+        
+    Tüm raporlar bu verilerden TÜRETİLİR.
+
+    13. "HİÇ KELİME BİTMEZ" FELSEFESİ (KRİTİK)
+
+        Bu sistemde "MASTERED" (tamamlandı) durumu YOKTUR.
+        
+        Temel Felsefe:
+            HER KELİME SONSUZ TEKRAR EDİLİR
+            Fibonacci aralıkları sonsuz devam eder
+            "Kalıcılık = Az da olsa sürekli tekrar" mantığı
+        
+        Neden?
+            Unutma doğaldır
+            Çok uzun aralarda bile tek tekrar çok değerlidir
+            Kelime HIÇ sistemden çıkmaz
+        
+        Örnek:
+            Kullanıcı 21. ünitede çalışıyor (Adım 5000)
+            2. üniteden bir kelime:
+                repetition_count = 23
+                next_review_step = 5000 + Fibonacci[23] + 1 = 5000 + 28657 + 1 = 33658
+            Bu kelime 33658. adımda YİNE GELECEK!
+        
+        Fibonacci Sınırı:
+            SINIR YOK
+            Fibonacci[100] bile olabilir
+            Sonsuz büyüme kabul edilir
+
+    14. İLERLEME METRİKLERİ (UI İÇİN)
+
+        "Maştered" olmadığı için ilerleme repetition_count ile ölçülür:
+        
+        Seviye Kategorileri:
+            🆕 Yeni Kelimeler: repetition_count = 0
+            📚 Başlangıç Seviyesi: repetition_count = 1-5
+            🔥 Orta Seviye: repetition_count = 6-10
+            ⭐ İleri Seviye: repetition_count = 11+
+        
+        UI Gösterimleri:
+            Toplam kelime: 1000
+            Çalışılmış: 125 (repetition_count > 0)
+            Yeni: 875 (repetition_count = 0)
+            
+            Dağılım:
+                Başlangıç: 82 kelime
+                Orta: 31 kelime
+                İleri: 12 kelime
+        
+        İlerleme Yüzdesi:
+            (Çalışılmış / Toplam) * 100
+            (125 / 1000) * 100 = %12.5
+
+    15. "NERDEYİM?" SORUSUNUN CEVABI
+
+        Kullanıcı "Neredeyim?" dediğinde sistem:
+        
+        current_step
+        progress kayıtları
+        kelime hiyerarşisi
+        
+        üzerinden şu bilgileri otomatik hesaplar:
+        
+        Hangi kursta
+        Hangi ünitede
+        Kaçıncı kelimede
+        Toplam kaç kelime öğrendi
+        
+    Bu bilgiler veritabanında AYRI AYRI tutulmaz. Hesaplanır.
+
+    16. TASARIMIN ANA İLKELERİ (ÖZET)
+
+    17. GLOBAL MANTIKSAL ADRESLEME (LOGICAL ADDRESSING)
+
+        Sistem, her veri parçasını (kartı) evrensel bir adresle tanımlar:
+        
+        Format: [USER_ID].[COURSE_ID].[UNIT_ID].[ORDER_NUMBER]
+        Örnek:  36.1.4.25
+        Anlamı: 36 ID'li kullanıcının, 1 ID'li kursundaki, 4. ünitenin, 25. kelimesi.
+
+        ÖNEMLİ MİMARİ NOTLAR:
+        1. Bu adresleme "Sanal"dır. Veritabanında tek bir "36.1.4.25" sütunu yoktur.
+        2. Sistem anlık olarak bu parçaları birleştirip ön yüze sunar. Ek yük (load) oluşturmaz.
+        3. Tek Veritabanı (Monolithic): Her kullanıcı için ayrı veritabanı açılmaz. Milyonlarca kullanıcı tek bir tabloda (UserProgress) tutulur, ancak hepsi "user_id" anahtarı ile izole edilir.
+        4. Tek Kurs / Çok Kurs: Sistem altyapısı teknik olarak birden fazla kursu (İngilizce, İspanyolca vb.) destekler (course_id ile). Ancak şu an sadece tek kurs (English) aktif olması performansı etkilemez.
+
+    18. TASARIMIN ANA İLKELERİ (ÖZET)
+
+        Mantıksal adresleme ≠ veritabanı ID
+        Zaman yok, sadece adım var
+        Fibonacci tekrar zorunlu
+        Kullanıcı hızı sistemi belirler
+        Boş adım yok
+        Sistem sade ama deterministik
+
+-----------------------
+-----------------------
+   1. Veritabanı Tasarımı (SQL)Artık karmaşık kuyruklara ihtiyacımız yok. Sadece kelimenin "Hangi adımda tekrar edileceği" bilgisini tutmamız yeterli.
+  
+        Tablo: UserProgress (Kullanıcı İlerlemesi)
+        id   user_id   word_id   repetition_count   next_review_step 
+        101      1       47            3                 14 
+        102      1       89            4                 14 
+        103      1       12            1                 17 
+
+   
+            Tablo: Users (Kullanıcı Bilgisi)
+            id   username   active_course_id
+            1    Ahmet      1
+            
+        Tablo: UserCourseProgress (Kurs Bazlı İlerleme)
+            user_id   course_id   current_step
+            1         1           11
+            1         2           5
+            1         3           1
+            
+            Not: Her kullanıcı-kurs kombinasyonu için ayrı current_step.
+            Kurs değişiminde hiç veri kaybı olmaz.
+    
+    2. Sistemin Çalışma Algoritması (Backend Kodu)Kullanıcı "Çalışmaya Başla" dediğinde arka planda çalışacak fonksiyon şu şekilde olacaktır:
+  
+            Python
+            # active_course_id Users.active_course_id alanından alınır
+            # Fonksiyon adı: get_step_content (tüm belgede tutarlı)
+            
+            def get_step_content(user_id, active_course_id, skip_count=0):
+                # 1. Kullanıcının şu an kaçıncı adımda olduğunu öğren
+                current_step = db.get_user_step(user_id, active_course_id) # Kurs bazlı!
+                
+                study_list = []
+
+                # --- A. YENİ KELİME KONTROLÜ (1-4-7-10 Kuralı) ---
+                # Matematik: (Adım - 1) 3'e tam bölünüyorsa yeni kelime vardır.
+                if (current_step - 1) % 3 == 0:
+                    new_word = db.get_next_new_word(user_id, active_course_id)
+                    if new_word:
+                        study_list.append({
+                            "type": "NEW",
+                            "word": new_word,
+                            "gap": 0 # İlk giriş
+                        })
+
+                # --- B. TEKRAR KELİMELERİ KONTROLÜ ---
+                # Veritabanına sor: "Gelecek tekrarı 11. adım olan kelimeler hangileri?"
+                # ÖNEMLİ: Sadece aktif kursun kelimelerini getir (kurs karışmasını önlemek için)
+                reviews = db.query(
+                    """SELECT * FROM UserProgress 
+                       WHERE user_id = ? 
+                       AND next_review_step = ?
+                       AND word_id IN (SELECT id FROM Words WHERE course_id = ?)""",
+                    (user_id, current_step, active_course_id)
+                )
+                
+                for word in reviews:
+                    study_list.append({
+                        "type": "REVIEW",
+                        "word": word,
+                        "gap": fibonacci(word.repetition_count) # Bir sonraki adım için hesaplanacak
+                    })
+
+                # --- C. LİSTE BOŞ MU DOLU MU? ---
+                if len(study_list) > 0:
+                    # Kullanıcıya bu listeyi (kartları) sırayla göster
+                    return study_list
+                else:
+                    # Eğer bu adımda hiç kart yoksa (Boş Adım), 
+                    # kullanıcıyı otomatik olarak bir sonraki adıma geçir ve tekrar dene.
+                    db.increment_user_step(user_id)
+                    return get_session_content(user_id) # Recursive (Kendini tekrar çağır)
+
+    3. Kullanıcı Bir Kartı Tamamladığında Ne Olur?
+        Kullanıcı kartı tamamladığında, o kelimeyi bir sonraki adıma (Satıra) fırlatacağız.
+        Senaryo: Kullanıcı 11. adımda "Apple" kelimesini tamamladı.
+        Mevcut Seviye: 3 (Fibonacci değeri 2 idi).
+        Yeni Seviye: 4 olacak.
+        Yeni Gap: Fibonacci(4) = 3.
+        Hedef Adım: Mevcut Adım (11) + Gap (3) = 14. Adım.
+        Veritabanı güncellenir: UPDATE Progress SET repetition_count=4, next_review_step=14 WHERE word_id=47
+        Bu işlem sepetteki (11. adımdaki) tüm kartlar bitene kadar devam eder. Sepet boşaldığında Users tablosundaki current_step 12 yapılır.
+
+    Sonuç
+        Bu yapı, senin "Excel Satırı" mantığınla birebir örtüşüyor.
+        Adım 11 (Satır 11): Sepeti getir.
+        Kartlar (Sütunlar): Sepettekileri tek tek erit.
+        Sonuç: Kelimeleri gelecekteki satırlara fırlat (Fibonacci formülüne göre artan aralıklara).
+        Bitince: Adım 12'ye geç.
+----------------------
+----------------------

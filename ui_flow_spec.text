@@ -1,0 +1,285 @@
+UI AKIŞ VE ARAYÜZ TASARIMI
+==================================================
+
+GENEL NOT: Bu UI tasarımı, uygulama.text dosyasındaki "Step-Based" (Adım Tabanlı) sistemi destekler.
+Sistem felsefesi: Zaman baskısı yok, doğru/yanlış değerlendirmesi yok, sadece "kartı tamamladı" akışı var.
+
+ÖNEMLİ: Sistemde "MASTERED" (tamamen öğrenildi) durumu YOKTUR!
+Tüm kelimeler sonsuz tekrar edilir. repetition_count seviyelerine göre kategorize edilir.
+
+==================================================
+
+1. ANA SAYFA (Homepage)
+----------------------
+
+Header:
+    - Kullanıcı adı
+    - Aktif kurs göstergesi (örn: "A1 English 🔹")
+    - Kurs değiştirme dropdown (kullanıcının kayıtlı olduğu tüm kurslar)
+    - İstatistikler/İlerleme butonu
+    - Çıkış butonu
+
+Body:
+    - Aktif kursun özet kartı:
+        • Kurs adı (örn: "A1 English")
+        • Toplam kelime sayısı (örn: "1000 kelime")
+        • Çalışılmış kelimeler (repetition_count > 0, örn: "125 / 1000")
+        • Seviye dağılımı:
+          - 🆕 Yeni: 875 kelime
+          - 📚 Başlangıç (1-5 tekrar): 82 kelime
+          - 🔥 Orta (6-10 tekrar): 31 kelime
+          - ⭐ İleri (11+ tekrar): 12 kelime
+        • "ÇALIŞMAYA BAŞLA" butonu (büyük, vurgulanmış)
+    
+    - Diğer kurslar listesi:
+        • Her kurs için küçük kart
+        • Kurs adı + ilerleme yüzdesi
+        • Tıklanınca o kurs aktif olur
+
+Footer:
+    - Uygulama versiyonu
+    - Yardım/Destek linki
+
+==================================================
+
+2. KURS DETAY SAYFASI (Course Overview)
+---------------------------------------
+NOT: Ana sayfadan kurs adına tıklanınca açılır (opsiyonel sayfa)
+
+Header:
+    - Kurs adı
+    - Toplam kelime sayısı
+    - "Çalışmaya Başla" butonu
+    - Geri butonu
+
+Body:
+    - Ünite listesi (dikey scroll):
+        Her ünitede:
+        • Ünite adı (örn: "Ünite 1.1", "Ünite 1.2")
+        • Üniteye ait kelime sayısı (örn: "50 kelime")
+        • Çalışılmış kelime sayısı (repetition_count > 0, örn: "25 / 50")
+        • İlerleme çubuğu
+        
+        🔐 UNIT LOCK STATES (Kilit Durumları):
+        
+        🔓 OPEN (Açık):
+            - Yeşil border veya açık renk
+            - "Çalış" butonu aktif
+            - Tıklanabilir
+        
+        👁️ PREVIEW (Önizleme):
+            - Gri border, açık arka plan
+            - "Yakında Açılacak" etiketi
+            - Kelimeleri görebilir ama çalışamaz
+            - "Çalış" butonu disabled
+            - Kilit açık ikonu 🔓
+        
+        🔒 LOCKED (Kilitli):
+            - Koyu gri, soluk
+            - Kilit ikonu 🔒
+            - "Önceki üniteyi tamamla" mesajı
+            - Tıklanamaz
+        
+        NOT: Ünite durumları backend get_unit_states() fonksiyonundan gelir
+        
+        • Tıklanınca ünite önizleme sayfasına gider (opsiyonel)
+
+Footer:
+    - Kurs istatistikleri özeti
+
+==================================================
+
+3. ÜNİTE ÖNİZLEME SAYFASI (Unit Preview) [OPSİYONEL]
+----------------------------------------------------
+NOT: Bu sayfa öğrenme sayfası DEĞİLDİR, sadece kelimeleri listelemek içindir.
+
+Header:
+    - Ünite adı (örn: "Ünite 1.1")
+    - Toplam kelime sayısı (50)
+    - Çalışılmış sayısı (25 / 50)
+    - "Bu Ünitede Çalış" butonu (öğrenme sayfasına gider)
+    - Geri butonu
+
+Body:
+    - Kelime listesi (scroll edilebilir):
+        Her kelime için:
+        • İngilizce kelime
+        • Türkçe anlamı
+        • Seviye göstergesi:
+          🆕 Yeni (rep_count = 0)
+          📚 Başlangıç (rep_count = 1-5)
+          🔥 Orta (rep_count = 6-10)
+          ⭐ İleri (rep_count = 11+)
+        • Tıklayınca kelime detay gösterir (ses çalar, resim gösterir)
+
+Footer:
+    - "Bu Ünitede Çalış" butonu (tekrar)
+    
+    NOT: "Bu Ünitede Çalış" sadece o kursun aktif edilmesi anlamına gelir.
+    Algoritma hâlâ kurs bazlıdır, ünite bazlı filtre YAPILMAZ.
+
+==================================================
+
+4. ÖĞRENME SAYFASI (Learning Session) [EN KRITIK SAYFA]
+--------------------------------------------------------
+NOT: Bu sayfa "get_session_content()" fonksiyonundan gelen kartları gösterir.
+Sistem burada 1-4-7-10 kuralı ve Fibonacci tekrarlarını uygular.
+
+Header:
+    - Adım göstergesi (örn: "Adım 11")
+    - Aktif kurs adı
+    - Oturumdaki toplam kart sayısı (örn: "3 kart")
+    - Tamamlanan kart sayısı (örn: "1 / 3")
+    - Duraklatma butonu (→ Ana sayfaya döner, ilerleme kaydedilir)
+
+Body - KART GÖRÜNÜMÜ (tek kart odaklı):
+    
+    [Kartın Ön Yüzü - İlk Durum]
+    ---------------------------
+    • İngilizce kelime (büyük, merkez, bold)
+    • Kelime resmi (görsel)
+    • Ses otomatik çalar (İngilizce telaffuz)
+    • "ANLAMI GÖSTER" butonu (yeşil, büyük)
+    
+    [Kartın Arka Yüzü - Butona Basılınca]
+    -------------------------------------
+    • İngilizce kelime (üstte, küçük)
+    • Türkçe anlam (büyük, merkez, bold)
+    • Kelime resmi (aynı görsel)
+    • Ses çalar (Türkçe okunuş - opsiyonel)
+    • "TAMAMLADIM" butonu (yeşil, büyük)
+        → Tıklayınca:
+           - Kelime bir sonraki adıma fırlatılır (Fibonacci +1 formülü)
+           - repetition_count artırılır
+           - Sepetteki bir sonraki kart gösterilir
+           - Sepet boşsa → current_step artırılır, ana sayfaya dönülür
+
+    NOT: "Yanlış bildi" / "Doğru bildi" butonu YOK. 
+    Sadece "Tamamladım" var. Sistem felsefesi: baskısız öğrenme.
+    
+    NOT 2: Kelime HİÇ sistemden çıkmaz. 100. tekrarında bile gelir!
+
+Footer:
+    - İlerleme çubuğu (görsel, örn: ■■■□□)
+    - "X / Y kart tamamlandı" metni
+
+AKIŞ:
+1. Kullanıcı "Çalışmaya Başla"ya tıklar
+2. Backend get_session_content() çalışır
+3. Yeni kelime + tekrar kartları getirilir
+4. Kartlar sırayla gösterilir
+5. Her kart tamamlanınca next_review_step güncellenir
+6. Sepet bitince current_step ilerler
+7. Ana sayfaya dön
+
+==================================================
+
+5. İSTATİSTİKLER SAYFASI (Statistics) [GELECEK ÖZELLİK]
+--------------------------------------------------------
+NOT: "Sınav" yerine ilerleme gösterimi için
+
+Header:
+    - "İlerleme Raporum"
+    - Aktif kurs adı
+    - Geri butonu
+
+Body:
+    - Toplam kelime sayısı
+    - Seviye dağılımı:
+      • 🆕 Yeni kelimeler (rep_count = 0)
+      • 📚 Başlangıç seviyesi (rep_count = 1-5)
+      • 🔥 Orta seviye (rep_count = 6-10)
+      • ⭐ İleri seviye (rep_count = 11+)
+    - Grafik: Son X adımda tamamlanan kart sayısı
+      (NOT: Step-based olduğu için "gün" yerine "adım" kullan)
+    - Üniteler bazında ilerleme
+
+Footer:
+    - "Çalışmaya Devam Et" butonu
+
+==================================================
+
+VERİ KAYNAĞINA GÖRE UI BİLEŞENLERİ:
+------------------------------------
+
+Ana belgeden UI'ye veri akışı:
+
+1. Users tablosu:
+   - username → Header'da göster
+   - active_course_id → Aktif kurs belirle
+
+2. UserCourseProgress tablosu:
+   - current_step → "Adım X" göster (kurs bazında)
+   - Kurs değişiminde otomatik yükle
+
+2. Progress tablosu:
+   - repetition_count → Seviye kategorisi belirle (🆕📚🔥⭐)
+   - next_review_step → (Backend kullanır, UI'de görünmez)
+   NOT: "status" alanı YOK! Tüm kelimelersonsuz tekrar edilir.
+
+3. Kelime tablosu:
+   - ingilizce_kelime → Kartın ön yüzü
+   - turkce_anlam → Kartın arka yüzü
+   - ses_url → Otomatik çal
+   - resim_url → Kartda göster
+
+4. Ünite tablosu:
+   - ünite_adı → Başlıkta göster
+   - kelime_sayısı → "50 kelime" göster
+
+5. Kurs tablosu:
+   - kurs_adı → Header ve kartlarda
+   - toplam_kelime → İlerleme hesapla
+
+==================================================
+
+TASARIM PRENSİPLERİ:
+--------------------
+
+1. TEK KART ODAKLI: Öğrenme sayfasında her seferinde 1 kart göster
+2. OTOMATİK SES: Kart gelir gelmez ses çalsın
+3. BÜYÜK BUTONLAR: Mobil dokunmatik için 48px minimum
+4. GÖRSEL ÖNCELIK: Her kelimede resim olmalı
+5. BASKINIZ ÖĞRENME: "Doğru/Yanlış" yok, sadece "Tamamladım"
+6. STEP VURGUSU: Kullanıcı hangi adımda olduğunu görmeli
+7. İLERLEME ŞEFFAFLIĞI: Kaç kart kaldığını göster
+8. RESPONSIVE: Mobil first, sonra desktop
+9. SONSUZ TEKRAR: "Öğrenildi" yerine "Seviye" göster
+
+==================================================
+
+MOBİL ÖZEL NOTLAR:
+------------------
+
+- Kartlar tam ekran dolmalı (padding minimal)
+- Swipe gesture: Sağa kaydır = "Anlamı Göster"
+- Tap: Ses tekrar çalma
+- Büyük fontlar (16px minimum)
+- Yatay mod opsiyonel (portre odaklı)
+
+==================================================
+
+SEVİYE KATEGORİLERİ (DETAYLI):
+-------------------------------
+
+🆕 Yeni Kelimeler (repetition_count = 0):
+   - Henüz hiç görülmemiş
+   - Fibonacci hesabına dahil değildir
+   - İlk tekrar repetition_count = 1 olduğunda başlar
+
+📚 Başlangıç Seviyesi (repetition_count = 1-5):
+   - Fibonacci aralıkları: 1, 1, 2, 3, 5
+   - Sık tekrar ediliyor
+   - Hala öğrenme aşamasında
+
+🔥 Orta Seviye (repetition_count = 6-10):
+   - Fibonacci aralıkları: 8, 13, 21, 34, 55
+   - Orta sıklıkta tekrar
+   - İyi pekişmiş
+
+⭐ İleri Seviye (repetition_count = 11+):
+   - Fibonacci aralıkları: 89, 144, 233...
+   - Çok uzun aralıklarla tekrar
+   - Ama HİÇ bitmiyor!
+
+==================================================

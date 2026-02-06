@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>EnglishBus MVP</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #app-container {
+            width: 100%;
+            max-width: 425px;
+            /* Reduced width */
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+            height: 600px;
+            max-height: 85vh;
+            /* Mobile Friendly */
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 10px;
+            /* Reduced from 15px */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .step-badge {
+            background: #e74c3c;
+            padding: 3px 8px;
+            /* Reduced padding */
+            border-radius: 12px;
+            font-size: 0.75rem;
+            /* Reduced font size */
+        }
+
+        #card-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: center;
+            overflow: hidden;
+            /* Ensure split is respected */
+        }
+
+        .image-container {
+            width: 100%;
+            height: 70%;
+            /* 70% Split */
+            background: #ecf0f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        #word-image {
+            width: 95%;
+            /* 5% reduction */
+            height: 95%;
+            /* 5% reduction */
+            object-fit: contain;
+            display: block;
+            padding: 10px;
+        }
+
+        .no-image-placeholder {
+            color: #95a5a6;
+            font-size: 3rem;
+            display: none;
+        }
+
+        #english-word {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin: 10px 0;
+            font-weight: 800;
+        }
+
+        #turkish-word {
+            font-size: 1.8rem;
+            color: #7f8c8d;
+            margin: 5px 0;
+            font-weight: 600;
+            min-height: 2.5rem;
+            visibility: hidden;
+        }
+
+        /* Buton Alanı: Statik Yapı */
+        .action-area {
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 13px;
+            /* Reduced padding for 10% height reduction */
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #btn-action {
+            background: #3498db;
+            color: white;
+            display: block;
+        }
+
+        /* Başlangıçta gizli */
+
+        #loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #7f8c8d;
+            flex-direction: column;
+            gap: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app-container">
+        <header>
+            <span>🇬🇧 A1 English</span>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <button type="button" onclick="resetProgress()"
+                    style="background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; font-weight: 600;"
+                    title="İlerlemeyi sıfırla">🔄</button>
+                <span id="step-indicator" class="step-badge">Hazırlanıyor...</span>
+            </div>
+        </header>
+
+        <div id="card-area">
+            <!-- Top 65%: Image Area -->
+            <div class="image-container">
+                <img id="word-image" src="" alt="Word"
+                    onerror="this.style.display='none'; document.querySelector('.no-image-placeholder').style.display='block'">
+                <div class="no-image-placeholder">📷</div>
+            </div>
+
+            <!-- Bottom 30%: Content Area (Text + Button) -->
+            <div id="card-content-area"
+                style="height: 30%; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; background: white; padding: 10px;">
+
+                <!-- Text Group -->
+                <div
+                    style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: -5px;">
+                    <!-- Top Text Placeholder -->
+                    <div style="height: 1.2rem; width: 100%; text-align: center; margin-bottom: 5px;">
+                        <p id="card-top-text"
+                            style="font-size: 0.9rem; color: #7f8c8d; font-weight: 600; opacity: 0; transition: opacity 0.3s; margin: 0;">
+                            hello</p>
+                    </div>
+
+                    <!-- Main Text (Corrected to 1.8rem for consistency) -->
+                    <h1 id="card-main-text"
+                        style="font-size: 1.8rem; color: #2c3e50; margin: 0; font-weight: 800; transition: all 0.3s;">
+                        ...</h1>
+                </div>
+
+                <!-- Action Button -->
+                <div class="action-area" style="width: 100%;">
+                    <button id="btn-action" class="btn" onclick="handleReveal()">ANLAMI GÖSTER 👁️</button>
+                </div>
+            </div>
+
+            <audio id="audio-player"></audio>
+        </div>
+
+        <div id="loading">
+            <span>Sınıf Hazırlanıyor...</span>
+        </div>
+    </div>
+
+    <script>
+        // --- KONFİGÜRASYON ---
+        const API_URL = "http://192.168.1.5:8001";  // Mobil erişim için
+        const USER_ID = 1;
+        const COURSE_ID = 1;
+        const MAX_RETRY = 3; // Sonsuz döngü koruması
+
+        // --- STATE ---
+        let sessionQueue = [];
+        let currentCard = null;
+        let retryCount = 0;
+
+        // --- BAŞLATMA ---
+        window.onload = startSession;
+
+        async function startSession() {
+            showLoading(true);
+            try {
+                const res = await fetch(`${API_URL}/session/start`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: USER_ID, course_id: COURSE_ID })
+                });
+
+                const data = await res.json();
+
+                sessionQueue = data.items || [];
+                updateHeader(data.current_step, sessionQueue.length);
+
+                if (sessionQueue.length > 0) {
+                    retryCount = 0; // Başarılı yüklemede sayacı sıfırla
+                    renderNextCard();
+                } else {
+                    handleEmptySession();
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Sunucu hatası! Backend çalışıyor mu?");
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function handleEmptySession() {
+            if (retryCount < MAX_RETRY) {
+                retryCount++;
+                console.log(`Boş oturum, yeniden deneniyor (${retryCount}/${MAX_RETRY})...`);
+                startSession();
+            } else {
+                alert("🎉 Tebrikler! Şu an için çalışılacak tüm kartlar bitti.");
+                document.getElementById('step-indicator').innerText = "Bitti ✅";
+            }
+        }
+
+        function updateHeader(step, count) {
+            const text = count > 0 ? `Step ${step} • ${count} Kart` : `Step ${step} • Bitti`;
+            document.getElementById('step-indicator').innerText = text;
+        }
+
+        function renderNextCard() {
+            if (sessionQueue.length === 0) {
+                // Oturum bitti - yeni session başlat (loading ekranı gösterilecek)
+                startSession();
+                return;
+            }
+            // Header Güncelle
+            const currentStepText = document.getElementById('step-indicator').innerText.split('•')[0].trim();
+            document.getElementById('step-indicator').innerText = `${currentStepText} • ${sessionQueue.length} Kart`;
+
+            currentCard = sessionQueue.shift();
+
+            // UI Reset (Veri Bağlama)
+            const topText = document.getElementById('card-top-text');
+            const mainText = document.getElementById('card-main-text');
+            const actionBtn = document.getElementById('btn-action');
+
+            topText.innerText = currentCard.english;
+            topText.style.opacity = '0';
+
+            // Initial Pop-in for English
+            mainText.style.transition = 'none';
+            mainText.style.transform = 'scale(0.5)';
+            mainText.style.opacity = '0';
+            mainText.innerText = currentCard.english;
+            mainText.style.color = '#2c3e50';
+            // Force reflow
+            void mainText.offsetWidth;
+
+            setTimeout(() => {
+                mainText.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                mainText.style.transform = 'scale(1)';
+                mainText.style.opacity = '1';
+            }, 50);
+
+            mainText.style.fontSize = '2.7rem';
+
+            // Reset Button
+            actionBtn.innerText = "ANLAMI GÖSTER 👁️";
+            actionBtn.style.background = "#3498db";
+            actionBtn.disabled = false;
+            actionBtn.onclick = handleReveal;
+
+            // Görsel Reset
+            const imgEl = document.getElementById('word-image');
+            const phEl = document.querySelector('.no-image-placeholder');
+            imgEl.style.display = 'block';
+            phEl.style.display = 'none';
+
+            if (currentCard.image_url) {
+                imgEl.src = currentCard.image_url;
+            } else {
+                imgEl.style.display = 'none';
+                phEl.style.display = 'block';
+            }
+
+            // Buton Reset (DOM Manipülasyonu YOK, sadece CSS Toggle)
+            document.getElementById('btn-reveal').style.display = 'block';
+            document.getElementById('btn-complete').style.display = 'none';
+            document.getElementById('btn-complete').disabled = false;
+
+            playAudio(currentCard.audio_en_url);
+        }
+
+        // --- AKSİYONLAR (Single Responsibility) ---
+
+        function handleReveal() {
+            // 1. Reveal Top Text
+            document.getElementById('card-top-text').style.opacity = '1';
+
+            // 2. Change Main Text (Pop-in Animation)
+            const mainText = document.getElementById('card-main-text');
+
+            mainText.style.transition = 'none';
+            mainText.style.transform = 'scale(0.5)';
+            mainText.style.opacity = '0';
+
+            mainText.innerText = currentCard.turkish;
+            mainText.style.color = '#27ae60'; // Green
+            mainText.style.fontSize = '2.7rem'; // Consistent size
+
+            void mainText.offsetWidth; // Force Reflow
+
+            setTimeout(() => {
+                mainText.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                mainText.style.transform = 'scale(1)';
+                mainText.style.opacity = '1';
+            }, 50);
+
+            // 3. Update Button
+            const btn = document.getElementById('btn-action');
+            btn.innerText = "TAMAMLADIM ✅";
+            btn.style.background = "#2ecc71";
+            btn.onclick = handleComplete;
+
+            // Türkçe sesi çal
+            playAudio(currentCard.audio_tr_url);
+        }
+
+        async function handleComplete() {
+            const btn = document.getElementById('btn-action');
+            btn.disabled = true; // Çift tıklamayı önle
+
+            try {
+                await fetch(`${API_URL}/session/complete`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: USER_ID,
+                        course_id: COURSE_ID,
+                        completed_word_ids: [currentCard.word_id]
+                    })
+                });
+                renderNextCard();
+            } catch (err) {
+                console.error("Submit hatası", err);
+                btn.disabled = false;
+                alert("Kaydedilemedi, tekrar deneyin.");
+            }
+        }
+
+        // --- YARDIMCILAR ---
+
+        function playAudio(url) {
+            if (!url) return;
+            const audio = document.getElementById('audio-player');
+            audio.src = url;
+            audio.play().catch(() => { }); // Autoplay hatasını yut (UX'i bozmaz)
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'flex' : 'none';
+        }
+
+        async function resetProgress() {
+            showLoading(true);
+            try {
+                await fetch(`${API_URL}/reset`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: USER_ID, course_id: COURSE_ID })
+                });
+
+                // Başarılı - yeni session başlat
+                sessionQueue = [];
+                currentCard = null;
+                retryCount = 0;
+                startSession();
+            } catch (err) {
+                console.error('Reset hatası:', err);
+                alert('Sıfırlama başarısız oldu!');
+                showLoading(false);
+            }
+        }
+    </script>
+
+</body>
+
+</html>

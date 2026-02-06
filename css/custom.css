@@ -1,0 +1,68 @@
+/* Main Custom Stylesheet */
+@import url('animations.css');
+@import url('glass.css');
+
+:root {
+    --brand-primary: #9900F0;
+    --brand-accent: #F900BF;
+    --bg-light: #f7f5f8;
+    --bg-dark: #191022;
+}
+
+/* --- Responsive & System --- */
+body {
+    -webkit-tap-highlight-color: transparent;
+    font-family: 'Lexend', sans-serif;
+    background-color: var(--bg-light);
+    color: #151118;
+    overflow-x: hidden;
+}
+
+.dark body {
+    background-color: var(--bg-dark);
+    color: white;
+}
+
+/* iPhone Safe Area */
+.safe-pb {
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-pt {
+    padding-top: env(safe-area-inset-top);
+}
+
+/* Transitions */
+.screen {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 1;
+}
+
+.screen.hidden {
+    display: none;
+    /* Helpers usually tackle this, but for transitions: */
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Scrollbar Hide */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Bottom Nav Floating Effect */
+.bottom-nav {
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+}
+
+/* Active Nav Item Glow */
+.nav-item.active div {
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
+    color: white;
+    box-shadow: 0 4px 15px rgba(153, 0, 240, 0.4);
+}

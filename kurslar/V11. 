@@ -1,0 +1,193 @@
+import random
+from collections import defaultdict
+
+# ==========================================================
+# 1. MASTER DICTIONARY (DEĞİŞMEZ – TÜM KELİMELER)
+# ==========================================================
+
+MASTER_DICT = {
+
+    # -------- INTERJECTIONS --------
+    "hello": {"type": "interj", "text": "hello"},
+    "hi": {"type": "interj", "text": "hi"},
+    "yes": {"type": "interj", "text": "yes"},
+    "no": {"type": "interj", "text": "no"},
+    "please": {"type": "interj", "text": "please"},
+    "thanks": {"type": "interj", "text": "thanks"},
+    "bye": {"type": "interj", "text": "bye"},
+
+    # -------- SUBJECTS / PRONOUNS --------
+    "I": {"type": "sub", "text": "I", "person": 1, "tags": ["human"]},
+    "you": {"type": "sub", "text": "you", "person": 2, "tags": ["human"]},
+    "he": {"type": "sub", "text": "he", "person": 3, "tags": ["human"]},
+    "she": {"type": "sub", "text": "she", "person": 3, "tags": ["human"]},
+    "it": {"type": "sub", "text": "it", "person": 3, "tags": ["thing"]},
+    "we": {"type": "sub", "text": "we", "person": 1, "tags": ["human"]},
+    "they": {"type": "sub", "text": "they", "person": 3, "tags": ["human", "animal"]},
+
+    # -------- VERBS (SEMANTIC SAFE) --------
+    "eat": {
+        "type": "verb", "text": "eat",
+        "req_sub": ["human", "animal"],
+        "req_obj": ["food"],
+        "morph": {"3s": "eats"}
+    },
+    "drink": {
+        "type": "verb", "text": "drink",
+        "req_sub": ["human", "animal"],
+        "req_obj": ["drink"],
+        "morph": {"3s": "drinks"}
+    },
+    "open": {
+        "type": "verb", "text": "open",
+        "req_obj": ["openable"],
+        "morph": {"3s": "opens"}
+    },
+    "wash": {
+        "type": "verb", "text": "wash",
+        "req_obj": ["washable"],
+        "morph": {"3s": "washes"}
+    },
+    "read": {
+        "type": "verb", "text": "read",
+        "req_obj": ["readable"],
+        "morph": {"3s": "reads"}
+    },
+
+    # -------- OBJECTS --------
+    "apple": {"type": "obj", "text": "apple", "tags": ["food"]},
+    "banana": {"type": "obj", "text": "banana", "tags": ["food"]},
+    "bread": {"type": "obj", "text": "bread", "tags": ["food"]},
+
+    "water": {"type": "obj", "text": "water", "tags": ["drink"]},
+    "milk": {"type": "obj", "text": "milk", "tags": ["drink"]},
+
+    "door": {"type": "obj", "text": "door", "tags": ["openable"]},
+    "window": {"type": "obj", "text": "window", "tags": ["openable"]},
+
+    "book": {"type": "obj", "text": "book", "tags": ["readable"]},
+    "hand": {"type": "obj", "text": "hand", "tags": ["washable"]},
+    "face": {"type": "obj", "text": "face", "tags": ["washable"]},
+
+    # -------- DETERMINERS --------
+    "a": {"type": "det", "text": "a"},
+    "the": {"type": "det", "text": "the"},
+
+    # -------- ADJECTIVES --------
+    "big": {"type": "adj", "text": "big"},
+    "small": {"type": "adj", "text": "small"},
+}
+
+
+# ==========================================================
+# 2. ACTIVE POOL (DEĞİŞEN – ÖĞRENCİNİN BİLDİĞİ KELİMELER)
+# ==========================================================
+
+ACTIVE_POOL = {
+    "I", "you",
+    "eat", "drink",
+    "apple", "water",
+    "a", "the"
+}
+
+
+# ==========================================================
+# 3. ACTIVE CONTEXT BUILDER
+# ==========================================================
+
+def build_active_context(master, pool):
+    """Sadece havuzdaki kelimeleri alır"""
+    return {
+        w: master[w]
+        for w in pool
+        if w in master
+    }
+
+
+# ==========================================================
+# 4. SMART SELECTOR (SEMANTIC + POOL SAFE)
+# ==========================================================
+
+class SmartSelector:
+    def __init__(self, context):
+        self.ctx = context
+        self.index = defaultdict(list)
+        self._index_all()
+
+    def _index_all(self):
+        for wid, meta in self.ctx.items():
+            self.index[meta["type"]].append(wid)
+
+    def select(self, wtype, req_tags=None):
+        candidates = self.index.get(wtype, [])
+        if not candidates:
+            return None
+
+        if req_tags:
+            filtered = []
+            for c in candidates:
+                tags = self.ctx[c].get("tags", [])
+                if set(tags).intersection(req_tags):
+                    filtered.append(c)
+            candidates = filtered
+
+        return random.choice(candidates) if candidates else None
+
+
+# ==========================================================
+# 5. SENTENCE ENGINE (SVO – SAFE)
+# ==========================================================
+
+class SentenceEngine:
+    def __init__(self, context):
+        self.ctx = context
+        self.selector = SmartSelector(context)
+
+    def generate(self):
+        sub = self.selector.select("sub")
+        verb = self.selector.select("verb")
+        if not sub or not verb:
+            return None
+
+        verb_meta = self.ctx[verb]
+
+        # Subject semantic check
+        if "req_sub" in verb_meta:
+            if not set(self.ctx[sub]["tags"]).intersection(verb_meta["req_sub"]):
+                return None
+
+        obj = None
+        if "req_obj" in verb_meta:
+            obj = self.selector.select("obj", verb_meta["req_obj"])
+            if not obj:
+                return None
+
+        det = self.selector.select("det") if obj else None
+
+        # Verb morphology
+        verb_text = verb_meta["text"]
+        if self.ctx[sub]["person"] == 3:
+            verb_text = verb_meta.get("morph", {}).get("3s", verb_text)
+
+        parts = [self.ctx[sub]["text"], verb_text]
+        if obj:
+            if det:
+                parts.append(self.ctx[det]["text"])
+            parts.append(self.ctx[obj]["text"])
+
+        return " ".join(parts).capitalize() + "."
+
+
+# ==========================================================
+# 6. RUN
+# ==========================================================
+
+if __name__ == "__main__":
+    active_context = build_active_context(MASTER_DICT, ACTIVE_POOL)
+    engine = SentenceEngine(active_context)
+
+    print("=== GENERATED SENTENCES ===")
+    for i in range(10):
+        s = engine.generate()
+        if s:
+            print(f"{i+1}. {s}")

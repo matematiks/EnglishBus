@@ -1,0 +1,323 @@
+id,english,turkish,image_file,audio_en_file,audio_tr_file
+1,hello,merhaba,001.webp,ing_001.mp3,tr_001.mp3
+2,hi,selam,hi.png,ing_002.mp3,tr_002.mp3
+3,I,ben,I.png,ing_003.mp3,tr_003.mp3
+4,am,olmak,004.webp,ing_004.mp3,tr_004.mp3
+5,you,sen,you.png,ing_005.mp3,tr_005.mp3
+6,want,istemek,want.png,ing_006.mp3,tr_006.mp3
+7,water,su,water.png,ing_007.mp3,tr_007.mp3
+8,food,yiyecek,food.png,ing_008.mp3,tr_008.mp3
+9,yes,evet,yes.png,ing_009.mp3,tr_009.mp3
+10,no,hayır,no.png,ing_010.mp3,tr_010.mp3
+11,please,lütfen,please.png,ing_011.mp3,tr_011.mp3
+12,not,değil,not.png,ing_012.mp3,tr_012.mp3
+13,me,bana,me.png,ing_013.mp3,tr_013.mp3
+14,this,bu,this.png,ing_014.mp3,tr_014.mp3
+15,what,ne,015.webp,ing_015.mp3,tr_015.mp3
+16,give,vermek,give.png,ing_016.mp3,tr_016.mp3
+17,take,almak,take.png,ing_017.mp3,tr_017.mp3
+18,thanks,teşekkürler,018.webp,ing_018.mp3,tr_018.mp3
+19,don't,yapma,019.webp,ing_019.mp3,tr_019.mp3
+20,go,gitmek,go.png,ing_020.mp3,tr_020.mp3
+21,to,ye/ya (yönelme),to.png,ing_021.mp3,tr_021.mp3
+22,home,ev,home.png,ing_022.mp3,tr_022.mp3
+23,come,gelmek,come.png,ing_023.mp3,tr_023.mp3
+24,here,burada,here.png,ing_024.mp3,tr_024.mp3
+25,where,nerede,where.png,ing_025.mp3,tr_025.mp3
+26,there,orada,there.png,ing_026.mp3,tr_026.mp3
+27,stay,kalmak,stay.png,ing_027.mp3,tr_027.mp3
+28,house,ev,house.png,ing_028.mp3,tr_028.mp3
+29,bed,yatak,bed.png,ing_029.mp3,tr_029.mp3
+30,sleep,uyumak,sleep.png,ing_030.mp3,tr_030.mp3
+31,tired,yorgun,031.webp,ing_031.mp3,tr_031.mp3
+32,open,açık,open.png,ing_032.mp3,tr_032.mp3
+33,the,bilinen (tanımlık),the.png,ing_033.mp3,tr_033.mp3
+34,door,kapı,door.png,ing_034.mp3,tr_034.mp3
+35,close,kapatmak,035.webp,ing_035.mp3,tr_035.mp3
+36,window,pencere,window.png,ing_036.mp3,tr_036.mp3
+37,my,benim,my.png,ing_037.mp3,tr_037.mp3
+38,bag,çanta,bag.png,ing_038.mp3,tr_038.mp3
+39,dog,köpek,dog.png,ing_039.mp3,tr_039.mp3
+40,cat,kedi,cat.png,ing_040.mp3,tr_040.mp3
+41,rabbit,tavşan,rabbit.png,ing_041.mp3,tr_041.mp3
+42,man,adam,man.png,ing_042.mp3,tr_042.mp3
+43,woman,kadın,woman.png,ing_043.mp3,tr_043.mp3
+44,boy,erkek çocuk,boy.png,ing_044.mp3,tr_044.mp3
+45,girl,kız çocuk,045.webp,ing_045.mp3,tr_045.mp3
+46,who,kim,046.webp,ing_046.mp3,tr_046.mp3
+47,he,o (erkek),he.png,ing_047.mp3,tr_047.mp3
+48,she,o (kadın),she.png,ing_048.mp3,tr_048.mp3
+49,it,o (cansız/hayvan),it.png,ing_049.mp3,tr_049.mp3
+50,is,dır/dir,050.webp,ing_050.mp3,tr_050.mp3
+51,mine,benimki,mine.png,ing_051.mp3,tr_051.mp3
+52,we,biz,we.png,ing_052.mp3,tr_052.mp3
+53,they,onlar,they.png,ing_053.mp3,tr_053.mp3
+54,are,olmak (are),are.png,ing_054.mp3,tr_054.mp3
+55,good,iyi,good.png,ing_055.mp3,tr_055.mp3
+56,bad,kötü,056.webp,ing_056.mp3,tr_056.mp3
+57,very,çok,very.png,ing_057.mp3,tr_057.mp3
+58,big,büyük,big.png,ing_058.mp3,tr_058.mp3
+59,small,küçük,small.png,ing_059.mp3,tr_059.mp3
+60,red,kırmızı,red.png,ing_060.mp3,tr_060.mp3
+61,blue,mavi,blue.png,ing_061.mp3,tr_061.mp3
+62,green,yeşil,green.png,ing_062.mp3,tr_062.mp3
+63,a,bir,063.webp,ing_063.mp3,tr_063.mp3
+64,book,kitap,book.png,ing_064.mp3,tr_064.mp3
+65,pen,kalem,pen.png,ing_065.mp3,tr_065.mp3
+66,paper,kağıt,paper.png,ing_066.mp3,tr_066.mp3
+67,notebook,defter,notebook.png,ing_067.mp3,tr_067.mp3
+68,read,okumak,read.png,ing_068.mp3,tr_068.mp3
+69,write,yazmak,write.png,ing_069.mp3,tr_069.mp3
+70,look,bakmak,look.png,ing_070.mp3,tr_070.mp3
+71,see,görmek,see.png,ing_071.mp3,tr_071.mp3
+72,friend,arkadaş,friend.png,ing_072.mp3,tr_072.mp3
+73,play,oynamak,play.png,ing_073.mp3,tr_073.mp3
+74,with,ile,with.png,ing_074.mp3,tr_074.mp3
+75,monkey,maymun,075.webp,ing_075.mp3,tr_075.mp3
+76,love,sevmek,love.png,ing_076.mp3,tr_076.mp3
+77,happy,mutlu,happy.png,ing_077.mp3,tr_077.mp3
+78,but,ama,but.png,ing_078.mp3,tr_078.mp3
+79,sad,üzgün,sad.png,ing_079.mp3,tr_079.mp3
+80,one,bir,one.png,ing_080.mp3,tr_080.mp3
+81,two,iki,two.png,ing_081.mp3,tr_081.mp3
+82,three,üç,three.png,ing_082.mp3,tr_082.mp3
+83,four,dört,083.webp,ing_083.mp3,tr_083.mp3
+84,five,beş,five.png,ing_084.mp3,tr_084.mp3
+85,six,altı,six.png,ing_085.mp3,tr_085.mp3
+86,seven,yedi,seven.png,ing_086.mp3,tr_086.mp3
+87,eight,sekiz,eight.png,ing_087.mp3,tr_087.mp3
+88,nine,dokuz,nine.png,ing_088.mp3,tr_088.mp3
+89,ten,on,ten.png,ing_089.mp3,tr_089.mp3
+90,eat,yemek,eat.png,ing_090.mp3,tr_090.mp3
+91,drink,içmek,drink.png,ing_091.mp3,tr_091.mp3
+92,bread,ekmek,bread.png,ing_092.mp3,tr_092.mp3
+93,and,ve,and.png,ing_093.mp3,tr_093.mp3
+94,apple,elma,apple.png,ing_094.mp3,tr_094.mp3
+95,banana,muz,banana.png,ing_095.mp3,tr_095.mp3
+96,cow,inek,cow.png,ing_096.mp3,tr_096.mp3
+97,horse,at,horse.png,ing_097.mp3,tr_097.mp3
+98,sheep,koyun,sheep.png,ing_098.mp3,tr_098.mp3
+99,duck,ördek,duck.png,ing_099.mp3,tr_099.mp3
+100,donkey,eşek,donkey.png,ing_100.mp3,tr_100.mp3
+101,hungry,aç,hungry.png,ing_101.mp3,tr_101.mp3
+102,thirsty,susamış,thirsty.png,ing_102.mp3,tr_102.mp3
+103,milk,süt,milk.png,ing_103.mp3,tr_103.mp3
+104,juice,meyve suyu,juice.png,ing_104.mp3,tr_104.mp3
+105,cup,fincan,cup.png,ing_105.mp3,tr_105.mp3
+106,bottle,şişe,bottle.png,ing_106.mp3,tr_106.mp3
+107,ok,tamam,107.webp,ing_107.mp3,tr_107.mp3
+108,wait,bekle,108.webp,ing_108.mp3,tr_108.mp3
+109,now,şimdi,now.png,ing_109.mp3,tr_109.mp3
+110,time,zaman,time.png,ing_110.mp3,tr_110.mp3
+111,put,koymak,111.webp,ing_111.mp3,tr_111.mp3
+112,on,üstünde,on.png,ing_112.mp3,tr_112.mp3
+113,table,masa,table.png,ing_113.mp3,tr_113.mp3
+114,chair,sandalye,chair.png,ing_114.mp3,tr_114.mp3
+115,sit,oturmak,sit.png,ing_115.mp3,tr_115.mp3
+116,stand,ayakta durmak,stand.png,ing_116.mp3,tr_116.mp3
+117,in,içinde,in.png,ing_117.mp3,tr_117.mp3
+118,your,senin,your.png,ing_118.mp3,tr_118.mp3
+119,box,kutu,box.png,ing_119.mp3,tr_119.mp3
+120,yours,seninki,120.webp,ing_120.mp3,tr_120.mp3
+121,mother,anne,mother.png,ing_121.mp3,tr_121.mp3
+122,father,baba,father.png,ing_122.mp3,tr_122.mp3
+123,son,oğul,son.png,ing_123.mp3,tr_123.mp3
+124,daughter,kız evlat,daughter.png,ing_124.mp3,tr_124.mp3
+125,sister,kız kardeş,sister.png,ing_125.mp3,tr_125.mp3
+126,brother,erkek kardeş,brother.png,ing_126.mp3,tr_126.mp3
+127,family,aile,family.png,ing_127.mp3,tr_127.mp3
+128,his,onun (erkek),his.png,ing_128.mp3,tr_128.mp3
+129,her,onun (kadın),her.png,ing_129.mp3,tr_129.mp3
+130,hers,onunki (kadın),hers.png,ing_130.mp3,tr_130.mp3
+131,ours,bizimki,ours.png,ing_131.mp3,tr_131.mp3
+132,theirs,onlarınki,132.webp,ing_132.mp3,tr_132.mp3
+133,make,yapmak,make.png,ing_133.mp3,tr_133.mp3
+134,kitchen,mutfak,kitchen.png,ing_134.mp3,tr_134.mp3
+135,breakfast,kahvaltı,breakfast.png,ing_135.mp3,tr_135.mp3
+136,lunch,öğle yemeği,lunch.png,ing_136.mp3,tr_136.mp3
+137,dinner,akşam yemeği,dinner.png,ing_137.mp3,tr_137.mp3
+138,plate,tabak,plate.png,ing_138.mp3,tr_138.mp3
+139,spoon,kaşık,spoon.png,ing_139.mp3,tr_139.mp3
+140,fork,çatal,fork.png,ing_140.mp3,tr_140.mp3
+141,knife,bıçak,knife.png,ing_141.mp3,tr_141.mp3
+142,tea,çay,tea.png,ing_142.mp3,tr_142.mp3
+143,or,veya,or.png,ing_143.mp3,tr_143.mp3
+144,coffee,kahve,coffee.png,ing_144.mp3,tr_144.mp3
+145,glass,bardak,glass.png,ing_145.mp3,tr_145.mp3
+146,sugar,şeker,sugar.png,ing_146.mp3,tr_146.mp3
+147,salt,tuz,salt.png,ing_147.mp3,tr_147.mp3
+148,hot,sıcak,148.webp,ing_148.mp3,tr_148.mp3
+149,cold,soğuk,cold.png,ing_149.mp3,tr_149.mp3
+150,thank you,teşekkür ederim,thank you.png,ing_150.mp3,tr_150.mp3
+151,school,okul,school.png,ing_151.mp3,tr_151.mp3
+152,class,sınıf,class.png,ing_152.mp3,tr_152.mp3
+153,teacher,öğretmen,teacher.png,ing_153.mp3,tr_153.mp3
+154,student,öğrenci,student.png,ing_154.mp3,tr_154.mp3
+155,learn,öğrenmek,learn.png,ing_155.mp3,tr_155.mp3
+156,study,ders çalışmak,study.png,ing_156.mp3,tr_156.mp3
+157,desk,sıra,desk.png,ing_157.mp3,tr_157.mp3
+158,board,tahta,board.png,ing_158.mp3,tr_158.mp3
+159,computer,bilgisayar,computer.png,ing_159.mp3,tr_159.mp3
+160,phone,telefon,phone.png,ing_160.mp3,tr_160.mp3
+161,call,aramak,161.webp,ing_161.mp3,tr_161.mp3
+162,picture,resim,picture.png,ing_162.mp3,tr_162.mp3
+163,work,iş,work.png,ing_163.mp3,tr_163.mp3
+164,busy,meşgul,busy.png,ing_164.mp3,tr_164.mp3
+165,can,yapabilmek,can.png,ing_165.mp3,tr_165.mp3
+166,can't,yapamamak,can't.png,ing_166.mp3,tr_166.mp3
+167,do,yapmak,do.png,ing_167.mp3,tr_167.mp3
+168,money,para,money.png,ing_168.mp3,tr_168.mp3
+169,without,sız/siz,without.png,ing_169.mp3,tr_169.mp3
+170,market,market,market.png,ing_170.mp3,tr_170.mp3
+171,shop,dükkan,shop.png,ing_171.mp3,tr_171.mp3
+172,buy,satın almak,172.webp,ing_172.mp3,tr_172.mp3
+173,get,almak,get.png,ing_173.mp3,tr_173.mp3
+174,some,biraz,some.png,ing_174.mp3,tr_174.mp3
+175,cheese,peynir,cheese.png,ing_175.mp3,tr_175.mp3
+176,sandwich,sandviç,sandwich.png,ing_176.mp3,tr_176.mp3
+177,meat,et,meat.png,ing_177.mp3,tr_177.mp3
+178,chicken,tavuk,chicken.png,ing_178.mp3,tr_178.mp3
+179,fish,balık,fish.png,ing_179.mp3,tr_179.mp3
+180,more,daha fazla,more.png,ing_180.mp3,tr_180.mp3
+181,rice,pirinç,rice.png,ing_181.mp3,tr_181.mp3
+182,pasta,makarna,pasta.png,ing_182.mp3,tr_182.mp3
+183,soup,çorba,soup.png,ing_183.mp3,tr_183.mp3
+184,salad,salata,salad.png,ing_184.mp3,tr_184.mp3
+185,vegetable,sebze,vegetable.png,ing_185.mp3,tr_185.mp3
+186,potato,patates,potato.png,ing_186.mp3,tr_186.mp3
+187,tomato,domates,187.webp,ing_187.mp3,tr_187.mp3
+188,enough,yeterli,enough.png,ing_188.mp3,tr_188.mp3
+189,fruit,meyve,fruit.png,ing_189.mp3,tr_189.mp3
+190,egg,yumurta,egg.png,ing_190.mp3,tr_190.mp3
+191,sick,hasta,sick.png,ing_191.mp3,tr_191.mp3
+192,doctor,doktor,doctor.png,ing_192.mp3,tr_192.mp3
+193,medicine,ilaç,medicine.png,ing_193.mp3,tr_193.mp3
+194,hospital,hastane,hospital.png,ing_194.mp3,tr_194.mp3
+195,hurt,acımak,hurt.png,ing_195.mp3,tr_195.mp3
+196,pain,ağrı,pain.png,ing_196.mp3,tr_196.mp3
+197,well,iyi,well.png,ing_197.mp3,tr_197.mp3
+198,clean,temiz,clean.png,ing_198.mp3,tr_198.mp3
+199,dirty,kirli,dirty.png,ing_199.mp3,tr_199.mp3
+200,wash,yıkamak,wash.png,ing_200.mp3,tr_200.mp3
+201,face,yüz,face.png,ing_201.mp3,tr_201.mp3
+202,hand,el,202.webp,ing_202.mp3,tr_202.mp3
+203,soap,sabun,soap.png,ing_203.mp3,tr_203.mp3
+204,towel,havlu,towel.png,ing_204.mp3,tr_204.mp3
+205,bathroom,banyo,bathroom.png,ing_205.mp3,tr_205.mp3
+206,toilet,tuvalet,toilet.png,ing_206.mp3,tr_206.mp3
+207,toilet paper,tuvalet kağıdı,207.webp,ing_207.mp3,tr_207.mp3
+208,new,yeni,new.png,ing_208.mp3,tr_208.mp3
+209,old,eski,old.png,ing_209.mp3,tr_209.mp3
+210,car,araba,car.png,ing_210.mp3,tr_210.mp3
+211,bus,otobüs,bus.png,ing_211.mp3,tr_211.mp3
+212,road,yol,road.png,ing_212.mp3,tr_212.mp3
+213,street,cadde,street.png,ing_213.mp3,tr_213.mp3
+214,from,den/dan,from.png,ing_214.mp3,tr_214.mp3
+215,city,şehir,city.png,ing_215.mp3,tr_215.mp3
+216,walk,yürümek,walk.png,ing_216.mp3,tr_216.mp3
+217,run,koşmak,run.png,ing_217.mp3,tr_217.mp3
+218,fast,hızlı,fast.png,ing_218.mp3,tr_218.mp3
+219,slow,yavaş,slow.png,ing_219.mp3,tr_219.mp3
+220,park,park,park.png,ing_220.mp3,tr_220.mp3
+221,yellow,sarı,yellow.png,ing_221.mp3,tr_221.mp3
+222,six,altı,six.png,ing_222.mp3,tr_222.mp3
+223,white,beyaz,white.png,ing_223.mp3,tr_223.mp3
+224,seven,yedi,seven.png,ing_224.mp3,tr_224.mp3
+225,black,siyah,black.png,ing_225.mp3,tr_225.mp3
+226,eight,sekiz,eight.png,ing_226.mp3,tr_226.mp3
+227,orange,turuncu,orange.png,ing_227.mp3,tr_227.mp3
+228,find,bulmak,228.webp,ing_228.mp3,tr_228.mp3
+229,lose,kaybetmek,229.webp,ing_229.mp3,tr_229.mp3
+230,bring,getirmek,bring.png,ing_230.mp3,tr_230.mp3
+231,hold,tutmak,hold.png,ing_231.mp3,tr_231.mp3
+232,change,değiştirmek,change.png,ing_232.mp3,tr_232.mp3
+233,use,kullanmak,233.webp,ing_233.mp3,tr_233.mp3
+234,same,aynı,same.png,ing_234.mp3,tr_234.mp3
+235,different,farklı,different.png,ing_235.mp3,tr_235.mp3
+236,easy,kolay,236.webp,ing_236.mp3,tr_236.mp3
+237,hard,zor,hard.png,ing_237.mp3,tr_237.mp3
+238,free,özgür/bedava,free.png,ing_238.mp3,tr_238.mp3
+239,today,bugün,today.png,ing_239.mp3,tr_239.mp3
+240,Monday,Pazartesi,240.webp,ing_240.mp3,tr_240.mp3
+241,tomorrow,yarın,241.webp,ing_241.mp3,tr_241.mp3
+242,Tuesday,Salı,242.webp,ing_242.mp3,tr_242.mp3
+243,yesterday,dün,243.webp,ing_243.mp3,tr_243.mp3
+244,Wednesday,Çarşamba,wednesday.png,ing_244.mp3,tr_244.mp3
+245,morning,sabah,morning.png,ing_245.mp3,tr_245.mp3
+246,Thursday,Perşembe,thursday.png,ing_246.mp3,tr_246.mp3
+247,afternoon,öğleden sonra,247.webp,ing_247.mp3,tr_247.mp3
+248,Friday,Cuma,friday.png,ing_248.mp3,tr_248.mp3
+249,evening,akşam,evening.png,ing_249.mp3,tr_249.mp3
+250,Saturday,Cumartesi,saturday.png,ing_250.mp3,tr_250.mp3
+251,night,gece,night.png,ing_251.mp3,tr_251.mp3
+252,Sunday,Pazar,sunday.png,ing_252.mp3,tr_252.mp3
+253,day,gün,day.png,ing_253.mp3,tr_253.mp3
+254,week,hafta,254.webp,ing_254.mp3,tr_254.mp3
+255,month,ay,255.webp,ing_255.mp3,tr_255.mp3
+256,year,yıl,year.png,ing_256.mp3,tr_256.mp3
+257,weekend,hafta sonu,257.webp,ing_257.mp3,tr_257.mp3
+258,late,geç,late.png,ing_258.mp3,tr_258.mp3
+259,early,erken,early.png,ing_259.mp3,tr_259.mp3
+260,all,hepsi,260.webp,ing_260.mp3,tr_260.mp3
+261,try,denemek,try.png,ing_261.mp3,tr_261.mp3
+262,again,tekrar,262.webp,ing_262.mp3,tr_262.mp3
+263,start,başlamak,start.png,ing_263.mp3,tr_263.mp3
+264,finish,bitirmek,finish.png,ing_264.mp3,tr_264.mp3
+265,ready,hazır,ready.png,ing_265.mp3,tr_265.mp3
+266,turn on,açmak (elektronik),266.webp,ing_266.mp3,tr_266.mp3
+267,turn off,kapatmak (elektronik),267.webp,ing_267.mp3,tr_267.mp3
+268,wake up,uyanmak,wake up.png,ing_268.mp3,tr_268.mp3
+269,leave,ayrılmak,leave.png,ing_269.mp3,tr_269.mp3
+270,hear,duymak,270.webp,ing_270.mp3,tr_270.mp3
+271,listen,dinlemek,listen.png,ing_271.mp3,tr_271.mp3
+272,speak,konuşmak,speak.png,ing_272.mp3,tr_272.mp3
+273,say,söylemek,273.webp,ing_273.mp3,tr_273.mp3
+274,tell,anlatmak,tell.png,ing_274.mp3,tr_274.mp3
+275,ask,sormak,ask.png,ing_275.mp3,tr_275.mp3
+276,answer,cevaplamak,276.webp,ing_276.mp3,tr_276.mp3
+277,question,soru,question.png,ing_277.mp3,tr_277.mp3
+278,word,kelime,word.png,ing_278.mp3,tr_278.mp3
+279,know,bilmek,know.png,ing_279.mp3,tr_279.mp3
+280,think,düşünmek,think.png,ing_280.mp3,tr_280.mp3
+281,idea,fikir,idea.png,ing_281.mp3,tr_281.mp3
+282,body,vücut,body.png,ing_282.mp3,tr_282.mp3
+283,head,baş,283.webp,ing_283.mp3,tr_283.mp3
+284,eye,göz,eye.png,ing_284.mp3,tr_284.mp3
+285,ear,kulak,ear.png,ing_285.mp3,tr_285.mp3
+286,mouth,ağız,mouth.png,ing_286.mp3,tr_286.mp3
+287,nose,burun,nose.png,ing_287.mp3,tr_287.mp3
+288,hair,saç,hair.png,ing_288.mp3,tr_288.mp3
+289,arm,kol,arm.png,ing_289.mp3,tr_289.mp3
+290,leg,bacak,leg.png,ing_290.mp3,tr_290.mp3
+291,foot,ayak (tek),291.webp,ing_291.mp3,tr_291.mp3
+292,feet,ayaklar,292.webp,ing_292.mp3,tr_292.mp3
+293,tooth,diş (tek),tooth.png,ing_293.mp3,tr_293.mp3
+294,teeth,dişler,294.webp,ing_294.mp3,tr_294.mp3
+295,problem,problem,problem.png,ing_295.mp3,tr_295.mp3
+296,sure,emin,296.webp,ing_296.mp3,tr_296.mp3
+297,maybe,belki,maybe.png,ing_297.mp3,tr_297.mp3
+298,left,sol,left.png,ing_298.mp3,tr_298.mp3
+299,right,sağ,right.png,ing_299.mp3,tr_299.mp3
+300,up,yukarı,up.png,ing_300.mp3,tr_300.mp3
+301,down,aşağı,down.png,ing_301.mp3,tr_301.mp3
+302,under,altında,under.png,ing_302.mp3,tr_302.mp3
+303,inside,içinde,inside.png,ing_303.mp3,tr_303.mp3
+304,outside,dışında,outside.png,ing_304.mp3,tr_304.mp3
+305,near,yakın,near.png,ing_305.mp3,tr_305.mp3
+306,far,uzak,far.png,ing_306.mp3,tr_306.mp3
+307,next to,bitişiğinde,307.webp,ing_307.mp3,tr_307.mp3
+308,behind,arkasında,308.webp,ing_308.mp3,tr_308.mp3
+309,between,arasında,between.png,ing_309.mp3,tr_309.mp3
+310,in front of,önünde,in front of.png,ing_310.mp3,tr_310.mp3
+311,why,neden,why.png,ing_311.mp3,tr_311.mp3
+312,because,çünkü,because.png,ing_312.mp3,tr_312.mp3
+313,so,bu yüzden,so.png,ing_313.mp3,tr_313.mp3
+314,twenty,yirmi,twenty.png,ing_314.mp3,tr_314.mp3
+315,thirty,otuz,thirty.png,ing_315.mp3,tr_315.mp3
+316,fifty,elli,fifty.png,ing_316.mp3,tr_316.mp3
+317,hundred,yüz,hundred.png,ing_317.mp3,tr_317.mp3
+318,sorry,özür dilerim,sorry.png,ing_318.mp3,tr_318.mp3
+319,excuse me,affedersiniz,excuse me.png,ing_319.mp3,tr_319.mp3
+320,goodbye,hoşçakal,goodbye.png,ing_320.mp3,tr_320.mp3
+321,bye,bay bay,321.webp,ing_321.mp3,tr_321.mp3
+322,later,sonra,later.png,ing_322.mp3,tr_322.mp3

@@ -1,0 +1,31 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+
+# Environment variables
+.env
+
+# MacOS
+.DS_Store
+
+# Antigravity/Agent
+.gemini/
+.agent/
+
+# Project Specific Backups and Temp
+yedekler/
+*.bak
+*.log
+debug_*.py
+test_generation.py
+
+# Databases (SQLite)
+*.db
+*.db-shm
+*.db-wal
+# Keep specific seed dbs if needed, but safe to exclude usually for local dev dbs

@@ -1,0 +1,121 @@
+{% extends "sqladmin/layout.html" %}
+{% block head %}
+{{ super() }}
+<style>
+    /* Dark Theme Overrides for SQLAdmin (AdminLTE/Bootstrap) */
+    body {
+        background-color: #111827 !important;
+        /* Gray 900 */
+        color: #d1d5db !important;
+        /* Gray 300 */
+        font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+    }
+
+    /* Sidebar */
+    .main-sidebar,
+    .main-sidebar::before {
+        background-color: #0f172a !important;
+        /* Slate 900 */
+    }
+
+    .nav-link {
+        color: #9ca3af !important;
+        /* Gray 400 */
+    }
+
+    .nav-link.active {
+        background-color: #1f2937 !important;
+        /* Gray 800 */
+        color: #fff !important;
+    }
+
+    .brand-link {
+        background-color: #0f172a !important;
+        border-bottom: 1px solid #1f2937 !important;
+        color: #fff !important;
+    }
+
+    /* Navbar */
+    .main-header {
+        background-color: #1f2937 !important;
+        border-bottom: 1px solid #374151 !important;
+    }
+
+    .main-header .nav-link {
+        color: #d1d5db !important;
+    }
+
+    /* Content */
+    .content-wrapper {
+        background-color: #111827 !important;
+    }
+
+    .card {
+        background-color: #1f2937 !important;
+        border: 1px solid #374151 !important;
+        color: #fff !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .card-header {
+        background-color: #1f2937 !important;
+        border-bottom: 1px solid #374151 !important;
+    }
+
+    /* Tables */
+    .table {
+        color: #d1d5db !important;
+        background-color: #1f2937 !important;
+    }
+
+    .table thead th {
+        border-bottom: 1px solid #4b5563 !important;
+        color: #fff !important;
+        background-color: #374151 !important;
+    }
+
+    .table td,
+    .table th {
+        border-top: 1px solid #374151 !important;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #374151 !important;
+    }
+
+    /* Forms */
+    .form-control {
+        background-color: #111827 !important;
+        border: 1px solid #374151 !important;
+        color: #fff !important;
+    }
+
+    .form-control:focus {
+        background-color: #111827 !important;
+        border-color: #3b82f6 !important;
+        color: #fff !important;
+    }
+
+    /* Links & Buttons */
+    a {
+        color: #60a5fa !important;
+    }
+
+    .btn-primary {
+        background-color: #2563eb !important;
+        border-color: #2563eb !important;
+    }
+
+    .btn-success {
+        background-color: #059669 !important;
+        border-color: #059669 !important;
+    }
+
+    /* Footer */
+    .main-footer {
+        background-color: #1f2937 !important;
+        border-top: 1px solid #374151 !important;
+        color: #9ca3af !important;
+    }
+</style>
+{% endblock %}

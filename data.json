@@ -1,0 +1,58 @@
+
+{
+  "app_info": {
+    "name": "EnglishBus Settings",
+    "version": "v2.4.1",
+    "status": "Sistem Çevrimiçi"
+  },
+  "user_profile": {
+    "username": "Alex Fibonacci",
+    "membership": "BİREYSEL",
+    "stats": {
+      "dailyFocusAverage": "45 dakika",
+      "leadershipRank": "#12",
+      "streakDays": 12
+    }
+  },
+  "settings": {
+    "algorithm_flow": {
+      "autoAudio": true,
+      "showImages": true,
+      "dailyGoal": 10,
+      "audioSpeed": 1.0,
+      "speedRange": {
+        "min": 0.75,
+        "max": 1.25,
+        "step": 0.05
+      }
+    },
+    "interface": {
+      "isDarkMode": false,
+      "activeTheme": "purple",
+      "availableThemes": [
+        { "id": "purple", "name": "Royal Purple", "primary": "#9900F0", "accent": "#F900BF" },
+        { "id": "ocean", "name": "Deep Ocean", "primary": "#0ea5e9", "accent": "#10b981" },
+        { "id": "sunset", "name": "Sunset Glow", "primary": "#f43f5e", "accent": "#fbbf24" },
+        { "id": "forest", "name": "Ancient Forest", "primary": "#10b981", "accent": "#3b82f6" }
+      ]
+    },
+    "education": {
+      "activeCourse": "Business Communication",
+      "availableCourses": [
+        "General English A1-A2",
+        "Business Communication",
+        "Academic IELTS Vocabulary",
+        "Daily Slang & Idioms",
+        "Travel & Tourism"
+      ]
+    }
+  },
+  "security": {
+    "danger_zone": {
+      "reset_progress": {
+        "label": "İlerlemeyi Sıfırla",
+        "warning": "Bu işlem geri alınamaz."
+      }
+    }
+  }
+}
