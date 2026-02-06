@@ -41,6 +41,10 @@ EnglishBus/
 !requirements.txt
 *.json
 !data.json
+# Allow Scripts and Course Data for DB Reconstruction
+!scripts/
+!kurslar/**/*.text
+!kurslar/**/*.md
 tests/
 englishbus-settings/
 stitch_englishbus_dashboard (1)/
