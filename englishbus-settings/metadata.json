@@ -1,7 +1,0 @@
-{
-  "name": "EnglishBus Settings",
-  "description": "A futuristic and innovative settings interface for the EnglishBus Fibonacci SRS platform, featuring glassmorphism, dynamic theming, and intuitive learning controls.",
-  "requestFramePermissions": [
-    "camera"
-  ]
-}

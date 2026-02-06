@@ -28,4 +28,35 @@ test_generation.py
 *.db
 *.db-shm
 *.db-wal
-# Keep specific seed dbs if needed, but safe to exclude usually for local dev dbs
+# Large Directories
+pa_backup/
+node_modules/
+EnglishBus/
+
+
+# Dev/Test & Documentation
+*.md
+*.text
+*.txt
+*.json
+!data.json
+tests/
+englishbus-settings/
+stitch_englishbus_dashboard (1)/
+photovv index.html/
+eskii_index.html
+check_env.py
+count_rows.py
+debug_*.py
+fix_*.py
+inspect_db.py
+minimal_wsgi.py
+update_passwords.py
+verification*.json
+verification*.txt
+mobile_qr.png
+settings_screen.html
+admin.html
+teacher.html
+login.html
+iindex.html
