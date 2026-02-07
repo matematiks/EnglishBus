@@ -126,7 +126,10 @@ export const StudyEngine = {
             const showImages = AppState.settings?.show_images !== false;
             const hasImage = !!card.image_url;
             imgEl.style.display = (hasImage && showImages) ? 'block' : 'none';
-            if (hasImage) imgEl.src = card.image_url;
+            if (hasImage) {
+                imgEl.src = card.image_url;
+                imgEl.onerror = () => { imgEl.style.display = 'none'; };
+            }
         }
 
         // Texts
