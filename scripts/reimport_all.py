@@ -89,14 +89,9 @@ def main():
     # 2. Import Courses
     courses_dir = os.path.join(BASE_DIR, "kurslar")
     
-    # A1 English
-    import_course(os.path.join(courses_dir, "A1_English"), "A1 English")
-    
-    # Numbers
-    import_course(os.path.join(courses_dir, "Numbers"), "Numbers")
-    
-    # First Words
-    import_course(os.path.join(courses_dir, "First Words"), "First Words")
+    # A1 Foundation (Only available course for now)
+    import_course(os.path.join(courses_dir, "A1_Foundation"), "A1 Foundation")
+
 
     print("\nAll imports completed!")
 
