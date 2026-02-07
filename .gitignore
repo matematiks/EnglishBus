@@ -33,10 +33,10 @@ pa_backup/
 node_modules/
 EnglishBus/
 
-# Large Media (Excluded for PA Quota)
-kurslar/**/images/
-kurslar/**/ing_audio/
-kurslar/**/tr_audio/
+# Large Media (Now Optimized - Safe to Push)
+# kurslar/**/images/
+# kurslar/**/ing_audio/
+# kurslar/**/tr_audio/
 
 
 # Dev/Test & Documentation
