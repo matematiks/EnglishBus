@@ -74,9 +74,15 @@ def main():
     db.execute(text("DELETE FROM Units"))
     db.execute(text("DELETE FROM Courses"))
     db.execute(text("DELETE FROM UserWordProgress")) # Clear progress to avoid orphans
-    db.execute(text("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'Words'"))
-    db.execute(text("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'Units'"))
-    db.execute(text("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'Courses'"))
+    
+    # Try to reset sequences (might fail if table empty/fresh)
+    try:
+        db.execute(text("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'Words'"))
+        db.execute(text("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'Units'"))
+        db.execute(text("UPDATE sqlite_sequence SET seq = 0 WHERE name = 'Courses'"))
+    except Exception:
+        pass
+
     db.commit()
     db.close()
 
