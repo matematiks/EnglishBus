@@ -8,7 +8,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 
 from sqlalchemy import text
-from backend.database import SessionLocal, Course, Unit, Word
+from backend.database import SessionLocal, Course, Unit, Word, Base, engine
 
 def import_course(directory, course_name):
     print(f"Importing {course_name} from {directory}...")
@@ -63,6 +63,10 @@ def import_course(directory, course_name):
     db.close()
 
 def main():
+    # 0. Ensure tables exist
+    print("Initializing database schema...")
+    Base.metadata.create_all(bind=engine)
+
     # 1. Clear existing course data
     print("Clearing existing course data...")
     db = SessionLocal()
