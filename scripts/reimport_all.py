@@ -32,15 +32,32 @@ def import_course(directory, course_name):
     db.commit()
     db.refresh(course)
 
-    # Create Unit (Single unit for now as per previous logic)
-    unit = Unit(course_id=course.id, name="Unit 1", order_number=1, word_count=len(df))
-    db.add(unit)
-    db.commit()
-    db.refresh(unit)
-
-    # Import Words
+    # Create Units and Import Words
+    WORDS_PER_UNIT = 50
+    current_unit = None
     words_to_add = []
+    
     for index, row in df.iterrows():
+        # Check if we need a new unit
+        if index % WORDS_PER_UNIT == 0:
+            unit_order = (index // WORDS_PER_UNIT) + 1
+            unit_name = f"Unit {unit_order}"
+            
+            # Calculate word count for this unit (min of 50 or remaining)
+            remaining_words = len(df) - index
+            current_unit_word_count = min(WORDS_PER_UNIT, remaining_words)
+            
+            current_unit = Unit(
+                course_id=course.id, 
+                name=unit_name, 
+                order_number=unit_order, 
+                word_count=current_unit_word_count
+            )
+            db.add(current_unit)
+            db.commit()
+            db.refresh(current_unit)
+            print(f"  -> Created {unit_name} ({current_unit_word_count} words)")
+
         # Handle different CSV structures if necessary (some have 'order', some 'id')
         english = row.get('english', row.get('English', '')).strip()
         turkish = row.get('turkish', row.get('Turkish', '')).strip()
@@ -55,7 +72,7 @@ def import_course(directory, course_name):
         
         word = Word(
             course_id=course.id,
-            unit_id=unit.id,
+            unit_id=current_unit.id,
             english=english,
             turkish=turkish,
             # Prepend path if file exists
