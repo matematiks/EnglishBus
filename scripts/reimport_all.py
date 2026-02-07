@@ -67,15 +67,19 @@ def main():
     print("Initializing database schema...")
     Base.metadata.create_all(bind=engine)
 
-    # 1. Clear existing course data
+    # 1. Clear existing course data (Order matches FK constraints)
     print("Clearing existing course data...")
     db = SessionLocal()
+    
+    # Delete dependent tables first
+    db.execute(text("DELETE FROM UserWordProgress")) 
+    db.execute(text("DELETE FROM UserProgress"))     
+    db.execute(text("DELETE FROM UserCourseProgress"))
+    
+    # Then delete content tables
     db.execute(text("DELETE FROM Words"))
     db.execute(text("DELETE FROM Units"))
     db.execute(text("DELETE FROM Courses"))
-    db.execute(text("DELETE FROM UserWordProgress")) # Clear progress to avoid orphans
-    db.execute(text("DELETE FROM UserProgress"))     # Clear active progress
-    db.execute(text("DELETE FROM UserCourseProgress")) # Clear course steps
     
     # Try to reset sequences (might fail if table empty/fresh)
     try:
