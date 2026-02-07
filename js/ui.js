@@ -8,6 +8,16 @@ export const UI = {
         if (target) {
             target.classList.remove('hidden');
 
+            // Toggle Mobile Nav Visibility
+            const mobileNav = document.getElementById('mobile-bottom-nav');
+            if (mobileNav) {
+                if (screenId === 'login-screen' || screenId === 'register-screen') {
+                    mobileNav.classList.add('hidden');
+                } else {
+                    mobileNav.classList.remove('hidden');
+                }
+            }
+
             // If we are showing the Settings screen, load current settings
             if (screenId === 'settings-screen' && typeof loadSettings === 'function') {
                 loadSettings();
