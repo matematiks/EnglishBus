@@ -74,6 +74,8 @@ def main():
     db.execute(text("DELETE FROM Units"))
     db.execute(text("DELETE FROM Courses"))
     db.execute(text("DELETE FROM UserWordProgress")) # Clear progress to avoid orphans
+    db.execute(text("DELETE FROM UserProgress"))     # Clear active progress
+    db.execute(text("DELETE FROM UserCourseProgress")) # Clear course steps
     
     # Try to reset sequences (might fail if table empty/fresh)
     try:
