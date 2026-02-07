@@ -12,8 +12,7 @@ export const SettingsManager = {
         show_images: true,
         daily_goal: 10,
         active_course_id: null,
-        avatar: '👤',
-        font_size: 100
+        avatar: '👤'
     },
 
     // Color Palettes (RGB strings for Tailwind --color-brand-500)
@@ -34,6 +33,7 @@ export const SettingsManager = {
         console.log("⚙️ Settings Manager Initializing...");
         this.loadLocal();
         this.bindUI();
+        this.populateCourses(); // Added: Load courses immediately
         this.fetchFromServer(); // Async
         this.applyAll();
         this.checkPermissions();
@@ -78,7 +78,6 @@ export const SettingsManager = {
     applyAll() {
         this.applyTheme();
         this.applyColorTheme();
-        this.applyFontSize(); // Keeps functionality if reused later
         this.applyAvatar();
         this.bindUI(); // Re-sync inputs to state
     },
@@ -137,23 +136,7 @@ export const SettingsManager = {
         });
     },
 
-    // === FONT SIZE ===
-    setFontSize(size) {
-        this.state.font_size = parseInt(size);
-        this.saveLocal();
-        this.applyFontSize();
-    },
 
-    applyFontSize() {
-        const size = this.state.font_size || 100;
-        const html = document.documentElement;
-        // Standard tailwind base is 16px. We adjust percentage relative to that.
-        // 100% = 16px (default browser).
-        html.style.fontSize = `${size}%`;
-
-        const display = document.getElementById('font-size-val');
-        if (display) display.textContent = `${size}%`;
-    },
 
     // === AVATAR ===
     avatars: ['👦', '👧', '👨', '👩', '👱', '👱‍♀️', '👴', '👵', '🦁', '🐯', '🐼', '🐨', '🐸', '🐙', '🦄', '🤖', '👽', '👻', '💩', '🚀'],
@@ -260,10 +243,6 @@ export const SettingsManager = {
             {
                 id: 'settings-daily-goal', key: 'daily_goal', type: 'range',
                 cb: (v) => document.getElementById('goal-display').textContent = v + ' Kelime'
-            },
-            {
-                id: 'settings-font-size', key: 'font_size', type: 'range',
-                cb: (v) => this.setFontSize(v)
             }
         ];
 
@@ -298,7 +277,6 @@ export const SettingsManager = {
                     const val = e.target.value; // visual update only
                     if (bind.id === 'settings-audio-speed') document.getElementById('settings-speed-val').textContent = val + 'x';
                     if (bind.id === 'settings-daily-goal') document.getElementById('goal-display').textContent = val + ' Kelime';
-                    if (bind.id === 'settings-font-size') document.getElementById('font-size-val').textContent = val + '%';
                 };
             }
         });
@@ -322,23 +300,7 @@ export const SettingsManager = {
     },
 
     // === ACTIONS ===
-    downloadData() {
-        const data = {
-            user: StateManager.state.user,
-            stats: StateManager.state.stats,
-            settings: this.state,
-            timestamp: new Date().toISOString()
-        };
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `englishbus_data_${data.timestamp.split('T')[0]}.json`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    },
+
 
     toggleDangerZone(event) {
         if (event) event.stopPropagation();
