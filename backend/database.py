@@ -191,6 +191,28 @@ class User(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     last_login = Column(DateTime(timezone=True), nullable=True)
 
+
+class UserProgress(Base):
+    __tablename__ = "UserProgress"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("Users.id"))
+    word_id = Column(Integer, ForeignKey("Words.id"))
+    repetition_count = Column(Integer, default=0)
+    next_review_step = Column(Integer, default=0)
+    last_updated = Column(DateTime(timezone=True), server_default=func.now())
+    first_learned_at = Column(DateTime(timezone=True), server_default=func.now())
+
+class UserCourseProgress(Base):
+    __tablename__ = "UserCourseProgress"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("Users.id"))
+    course_id = Column(Integer, ForeignKey("Courses.id"))
+    current_step = Column(Integer, default=1)
+    max_open_unit_order = Column(Integer, default=1)
+    last_activity = Column(DateTime(timezone=True), server_default=func.now())
+
 class UserWordProgress(Base):
     """
     DEPRECATED (2025-01-21): This model points to a dead/ghost table.
