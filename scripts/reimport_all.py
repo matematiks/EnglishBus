@@ -45,14 +45,23 @@ def import_course(directory, course_name):
         english = row.get('english', row.get('English', '')).strip()
         turkish = row.get('turkish', row.get('Turkish', '')).strip()
         
+        # Construct absolute URLs for frontend based on static mount (/assets -> /kurslar)
+        image_file = row.get('image_file', None)
+        audio_en_file = row.get('audio_en_file', None)
+        audio_tr_file = row.get('audio_tr_file', None)
+
+        # Base URL for A1 Foundation
+        base_url = "/assets/A1_Foundation"
+        
         word = Word(
             course_id=course.id,
             unit_id=unit.id,
             english=english,
             turkish=turkish,
-            image_url=row.get('image_file', None),
-            audio_en_url=row.get('audio_en_file', None),
-            audio_tr_url=row.get('audio_tr_file', None),
+            # Prepend path if file exists
+            image_url=f"{base_url}/images/{image_file}" if image_file and not str(image_file).startswith("http") else image_file,
+            audio_en_url=f"{base_url}/ing_audio/{audio_en_file}" if audio_en_file and not str(audio_en_file).startswith("http") else audio_en_file,
+            audio_tr_url=f"{base_url}/tr_audio/{audio_tr_file}" if audio_tr_file and not str(audio_tr_file).startswith("http") else audio_tr_file,
             order_number=index + 1
         )
         words_to_add.append(word)
