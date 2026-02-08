@@ -8,9 +8,9 @@ from pydantic import BaseModel
 # Add parent directory to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from api.dependencies import get_db, get_current_user
-from api.models import UserSettings, SettingsUpdateRequest
-from api.security_utils import verify_password
+from backend.api.dependencies import get_db, get_current_user
+from backend.api.models import UserSettings, SettingsUpdateRequest
+from backend.api.security_utils import verify_password
 
 router = APIRouter()
 
