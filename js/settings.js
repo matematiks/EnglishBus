@@ -63,9 +63,9 @@ export const SettingsManager = {
     },
 
     async fetchFromServer() {
-        const userId = localStorage.getItem(CONSTANTS.LOCAL_KEYS.USER_ID) || 1;
         try {
-            const data = await API.request(`/user/settings?user_id=${userId}`);
+            // JWT token already contains user ID, no need for query parameter
+            const data = await API.request('/user/settings');
             if (data) {
                 this.state = { ...this.state, ...data };
                 this.saveLocal();
