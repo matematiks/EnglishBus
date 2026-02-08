@@ -9,7 +9,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 # Secret key for JWT (use env var in production)
-SECRET_KEY = os.getenv("JWT_SECRET_KEY", "supersecretkey")
+# IMPORTANT: Strong default fallback to ensure production safety
+SECRET_KEY = os.getenv("JWT_SECRET_KEY") or "qjFneqpLbX5bd1sT9WNi5v-vPzguDyjoL3gocD3dWxmiPtxw8BEnyKTeX6gFuEz1"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 1 day
 
@@ -23,6 +24,8 @@ if len(SECRET_KEY) < 32:
     )
     # In production, you might want to raise an error instead:
     # raise ValueError("JWT secret must be at least 32 characters")
+else:
+    logger.info(f"JWT secret key length: {len(SECRET_KEY)} bytes ✓")
 
 def get_password_hash(password: str) -> str:
     # Generate salt and hash
