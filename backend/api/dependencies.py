@@ -53,9 +53,16 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: sqlite3.Connection
             raise credentials_exception
     except jwt.PyJWTError:
         raise credentials_exception
-        
-    cursor = db.execute("SELECT * FROM Users WHERE id = ?", (int(user_id),))
+    
+    # Security Fix: SELECT specific columns instead of *
+    # Prevents password hash leak and unnecessary data transfer    
+    cursor = db.execute("""
+        SELECT id, username, active_course_id, is_teacher, account_type
+        FROM Users 
+        WHERE id = ?
+    """, (int(user_id),))
     user = cursor.fetchone()
     if user is None:
         raise credentials_exception
     return user
+

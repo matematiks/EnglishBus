@@ -4,7 +4,11 @@ Implements Fibonacci-based spaced repetition with step-based tracking
 """
 
 import sqlite3
+import logging
 from typing import List, Dict, Any, Tuple, Optional
+
+# Setup logging
+logger = logging.getLogger(__name__)
 
 
 def fibonacci(n: int) -> int:
@@ -100,7 +104,7 @@ def update_word_progress(conn: sqlite3.Connection, user_id: int, word_id: int, c
         
         # IDEMPOTENCY: If this word was already scheduled BEYOND current step, ignore
         if old_next_review > current_step:
-            print(f"⚠️ Duplicate submission: Word {word_id} already scheduled for step {old_next_review}")
+            logger.warning(f"Duplicate submission: Word {word_id} already scheduled for step {old_next_review}")
             return
         
         # Increment repetition count
@@ -114,7 +118,7 @@ def update_word_progress(conn: sqlite3.Connection, user_id: int, word_id: int, c
             WHERE user_id = ? AND word_id = ?
         """, (new_rep_count, next_review, user_id, word_id))
         
-        print(f"✓ Word {word_id}: rep {old_rep_count}→{new_rep_count}, next step {old_next_review}→{next_review} (gap: {fib_gap})")
+        logger.debug(f"Word {word_id}: rep {old_rep_count}→{new_rep_count}, next step {old_next_review}→{next_review} (gap: {fib_gap})")
     else:
         # First encounter: Initialize with rep_count=1
         # Next review uses Fibonacci[1] = +1 step
@@ -158,12 +162,12 @@ def get_session_content(
     try:
         current_step = get_user_step(db, user_id, course_id)
     except Exception as e:
-        print(f"❌ Error getting user step: {e}")
+        logger.error(f"Error getting user step: {e}")
         current_step = 1
     
     study_list = []
     unit_filter_msg = f", Unit {unit_id}" if unit_id else ""
-    print(f"📚 User {user_id}, Course {course_id}, Step {current_step}, Skip {skip_count}{unit_filter_msg}")
+    logger.info(f"User {user_id}, Course {course_id}, Step {current_step}, Skip {skip_count}{unit_filter_msg}")
     
     # RULE 1: New Word Check (1-4-7-10 pattern)
     is_new_word_step = (current_step - 1) % 3 == 0
@@ -240,9 +244,9 @@ def get_session_content(
             if unit_id is None:
                 unit_id = new_word['unit_id']
 
-            print(f"  ✨ NEW word: {new_word['english']} (Unit {unit_id})")
+            logger.debug(f"NEW word: {new_word['english']} (Unit {unit_id})")
         else:
-            print(f"  ℹ️ No more new words available")
+            logger.debug("No more new words available")
     
     # RULE 2: Review Words (Fibonacci-scheduled)
     # Modified to include Unid ID filter
@@ -285,7 +289,7 @@ def get_session_content(
         if unit_id is None:
             unit_id = row['unit_id']
             
-        print(f"  🔄 REVIEW word: {row['english']} (rep: {row['repetition_count']})")
+        logger.debug(f"REVIEW word: {row['english']} (rep: {row['repetition_count']})")
     
     # RULE 3: Empty Step Handling
     if study_list:
@@ -297,7 +301,7 @@ def get_session_content(
     else:
         # Recursion guard
         if skip_count > 200:
-            print(f"⚠️ Recursion limit reached at step {current_step}")
+            logger.warning(f"Recursion limit reached at step {current_step}")
             return {
                 "current_step": current_step,
                 "items": [],
@@ -305,7 +309,7 @@ def get_session_content(
                 "active_unit_id": unit_id
             }
         
-        print(f"  ⏭️ Step {current_step} is empty, incrementing...")
+        logger.info(f"Step {current_step} is empty, incrementing...")
         
         # Increment step and try again
         db.execute("""
@@ -399,13 +403,14 @@ def complete_session(user_id: int, course_id: int, completed_word_ids: List[int]
 
 def print_fibonacci_table(max_n: int = 20):
     """Print Fibonacci sequence for verification"""
-    print("\nFibonacci Sequence:")
-    print("=" * 30)
+    logger.debug("\nFibonacci Sequence:")
+    logger.debug("=" * 30)
     for i in range(1, max_n + 1):
-        print(f"Fibonacci[{i}] = {fibonacci(i)}")
-    print("=" * 30)
+        logger.debug(f"Fibonacci[{i}] = {fibonacci(i)}")
+    logger.debug("=" * 30)
 
 
 if __name__ == "__main__":
     # Run diagnostic
     print_fibonacci_table(15)
+

@@ -1,9 +1,19 @@
 import os
 import sys
+import logging
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from sqladmin import Admin
+
+# Configure logging early (before other imports)
+LOG_LEVEL = os.getenv("LOG_LEVEL", "WARNING")  # Production default: WARNING
+logging.basicConfig(
+    level=getattr(logging, LOG_LEVEL),
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+logger.info(f"Application starting with log level: {LOG_LEVEL}")
 
 # Add parent dir to path if needed (standard for these setups)
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
@@ -73,7 +83,7 @@ async def get_student_messages(user_id: int, db: sqlite3.Connection = Depends(ge
             "read_at": m[5]
         } for m in messages]}
     except Exception as e:
-        print(f"Get messages error: {e}")
+        logger.error(f"Get messages error: {e}")
         return {"messages": []}
 
 @app.post("/messages/{message_id}/read")
@@ -89,7 +99,7 @@ async def mark_message_as_read(message_id: int, db: sqlite3.Connection = Depends
         db.commit()
         return {"success": True}
     except Exception as e:
-        print(f"Mark as read error: {e}")
+        logger.error(f"Mark as read error: {e}")
         return {"success": False}
 
 # Mount Static
@@ -154,7 +164,7 @@ class AdminAuth(AuthenticationBackend):
                 cursor.execute("SELECT id, password_hash, is_admin FROM Users WHERE username = ?", (username,))
                 user_row = cursor.fetchone()
         except Exception as e:
-            print(f"DB Auth Error: {e}")
+            logger.error(f"DB Auth Error: {e}")
             return False
 
         if not user_row:

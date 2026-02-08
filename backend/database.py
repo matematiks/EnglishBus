@@ -1,14 +1,17 @@
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Text, DateTime
 from sqlalchemy.sql import func
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
+import logging
 
-# Database Connection
+# Setup logging
+logger = logging.getLogger(__name__)
+
 # Database Connection
 # Adjust path to match execution context (cd backend && python main.py)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_PATH = os.path.join(BASE_DIR, "englishbus.db")
-print(f"DEBUG: database.py resolved DB_PATH to: {DB_PATH}")
+logger.debug(f"database.py resolved DB_PATH to: {DB_PATH}")
 DATABASE_URL = f"sqlite:///{DB_PATH}"
 
 engine = create_engine(
@@ -43,36 +46,36 @@ def check_and_migrate_db():
             columns = [info[1] for info in cursor.fetchall()]
             
             if "created_at" not in columns:
-                print("Migrating: Adding created_at to Users")
+                logger.info("Migrating: Adding created_at to Users")
                 # SQLite ADD COLUMN requires constant default.
                 cursor.execute("ALTER TABLE Users ADD COLUMN created_at TIMESTAMP DEFAULT '2024-01-01 00:00:00'")
                 
             if "last_login" not in columns:
-                print("Migrating: Adding last_login to Users")
+                logger.info("Migrating: Adding last_login to Users")
                 cursor.execute("ALTER TABLE Users ADD COLUMN last_login TIMESTAMP")
             
             if "is_teacher" not in columns:
-                print("Migrating: Adding is_teacher to Users")
+                logger.info("Migrating: Adding is_teacher to Users")
                 cursor.execute("ALTER TABLE Users ADD COLUMN is_teacher INTEGER DEFAULT 0")
             
             if "teacher_id" not in columns:
-                print("Migrating: Adding teacher_id to Users")
+                logger.info("Migrating: Adding teacher_id to Users")
                 cursor.execute("ALTER TABLE Users ADD COLUMN teacher_id TEXT UNIQUE")
             
             if "assigned_teacher_id" not in columns:
-                print("Migrating: Adding assigned_teacher_id to Users")
+                logger.info("Migrating: Adding assigned_teacher_id to Users")
                 cursor.execute("ALTER TABLE Users ADD COLUMN assigned_teacher_id TEXT")
                 
             if "approved_at" not in columns:
-                print("Migrating: Adding approved_at to Users")
+                logger.info("Migrating: Adding approved_at to Users")
                 cursor.execute("ALTER TABLE Users ADD COLUMN approved_at TIMESTAMP")
             
             if "account_type" not in columns:
-                print("Migrating: Adding account_type to Users")
+                logger.info("Migrating: Adding account_type to Users")
                 cursor.execute("ALTER TABLE Users ADD COLUMN account_type VARCHAR(20)")
             
             if "approval_status" not in columns:
-                print("Migrating: Adding approval_status to Users")
+                logger.info("Migrating: Adding approval_status to Users")
                 cursor.execute("ALTER TABLE Users ADD COLUMN approval_status VARCHAR(20) DEFAULT 'approved'")
             
             # Create maintenance_mode table
@@ -114,7 +117,7 @@ def check_and_migrate_db():
             """)
             
             conn.commit()
-            print("Migration successful")
+            logger.info("Migration successful")
             
             # Additional Migration for Courses
             with sqlite3.connect(DB_PATH) as conn:
@@ -122,12 +125,12 @@ def check_and_migrate_db():
                 cursor.execute("PRAGMA table_info(Courses)")
                 course_cols = [info[1] for info in cursor.fetchall()]
                 if "level" not in course_cols:
-                    print("Migrating: Adding level to Courses")
+                    logger.info("Migrating: Adding level to Courses")
                     cursor.execute("ALTER TABLE Courses ADD COLUMN level TEXT DEFAULT 'General'")
                     conn.commit()
 
     except Exception as e:
-        print(f"Migration Warning: {e}")
+        logger.warning(f"Migration Warning: {e}")
 
 # Run migration on import invocation (simple approach for local app)
 if os.path.exists(DB_PATH):

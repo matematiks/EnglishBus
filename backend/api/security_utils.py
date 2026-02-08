@@ -3,11 +3,26 @@ import datetime
 from typing import Optional
 import jwt
 import bcrypt
+import logging
+
+# Setup logging
+logger = logging.getLogger(__name__)
 
 # Secret key for JWT (use env var in production)
 SECRET_KEY = os.getenv("JWT_SECRET_KEY", "supersecretkey")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 1 day
+
+# Security: Validate JWT secret key length
+# Minimum 32 bytes (256 bits) recommended for HMAC
+if len(SECRET_KEY) < 32:
+    logger.warning(
+        f"JWT secret key is only {len(SECRET_KEY)} characters long. "
+        "Minimum recommended length is 32 characters for security. "
+        "Please set a strong JWT_SECRET_KEY environment variable."
+    )
+    # In production, you might want to raise an error instead:
+    # raise ValueError("JWT secret must be at least 32 characters")
 
 def get_password_hash(password: str) -> str:
     # Generate salt and hash
